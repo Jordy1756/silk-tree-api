@@ -6,7 +6,7 @@ import { Request, Response } from "express";
 export class UserController {
     constructor(private createUserUseCase: CreateUserUseCase, private loginUseCase: LoginUseCase) {}
 
-    async register(req: Request, res: Response): Promise<void> {
+    register = async (req: Request, res: Response): Promise<void> => {
         try {
             const userData: UserDTO = req.body;
             const user = await this.createUserUseCase.execute(userData);
@@ -23,9 +23,9 @@ export class UserController {
                 res.status(500).json({ error: "Internal server error" });
             }
         }
-    }
+    };
 
-    async login(req: Request, res: Response): Promise<void> {
+    login = async (req: Request, res: Response): Promise<void> => {
         try {
             const credentials: UserDTO = req.body;
             const { user, token } = await this.loginUseCase.execute(credentials);
@@ -43,5 +43,5 @@ export class UserController {
                 res.status(500).json({ error: "Internal server error" });
             }
         }
-    }
+    };
 }

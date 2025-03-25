@@ -6,7 +6,7 @@ import { UserDTO } from "../dtos/UserDTO";
 export class LoginUseCase {
     constructor(private userRepository: IUserRepository, private authService: IAuthService) {}
 
-    async execute({ email, password }: UserDTO): Promise<{ user: User; token: string }> {
+    execute = async ({ email, password }: UserDTO): Promise<{ user: User; token: string }> => {
         const user = await this.userRepository.findByEmail(email);
 
         if (!user) throw new Error("INVALID_CREDENTIALS");
@@ -18,5 +18,5 @@ export class LoginUseCase {
         const token = this.authService.generateToken(user);
 
         return { user, token };
-    }
+    };
 }
