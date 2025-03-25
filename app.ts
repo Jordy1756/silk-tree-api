@@ -7,6 +7,16 @@ import { UserController } from "./src/features/users/infrastructure/controllers/
 // Crear instancias
 const userRoutes = createUserRoutes(UserController);
 
+const userRepository = new UserRepository();
+const authService = new AuthService(secretKey);
+
+const userController = new UserController(manageUser);
+const userAuthController = new UserController(manageAuth);
+
+// Crear instancias de rutas
+const userRoutes = createUserRoutes(userController);
+const userAuthRoutes = createUserRoutes(userAuthController);
+
 // Configurar Express
 const app = express();
 app.use(express.json());

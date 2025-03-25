@@ -4,12 +4,12 @@ import { UserDTO } from "../dtos/UserDTO";
 import bcrypt from "bcrypt";
 import crypto from "node:crypto";
 
-export class ManageUser {
+export class CreateUserUseCase {
     constructor(private userRepository: IUserRepository) {}
 
-    async create({ name, lastName, email, password }: UserDTO): Promise<User> {
+    async execute({ name, lastName, email, password }: UserDTO): Promise<User> {
         const hashedPassword = await bcrypt.hash(password, 10);
         const user = new User(crypto.randomUUID(), name, lastName, email, hashedPassword);
-        return this.userRepository.create(user);
+        return this.userRepository.regiter(user);
     }
 }

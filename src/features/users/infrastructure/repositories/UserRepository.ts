@@ -3,7 +3,7 @@ import { IUserRepository } from "../../domain/interfaces/IUserRepository";
 import { connection } from "../../../../shared/database/connection";
 
 export class UserRepository implements IUserRepository {
-    async create(user: User): Promise<User> {
+    async regiter(user: User): Promise<User> {
         const [result] = await connection.query(
             "INSERT INTO users (id, name, email, lastName, password_hash) VALUES (?, ?, ?, ?, ?)",
             [user.id, user.name, user.lastName, user.email, user.passwordHash]

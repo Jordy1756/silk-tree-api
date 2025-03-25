@@ -3,6 +3,6 @@ import { UserController } from "../controllers/UserController";
 
 export const createUserRoutes = (controller: UserController): Router => {
     const router = Router();
-    router.post("/create", controller.create.bind(controller));
+    router.post("/create", controller.register.bind(controller));
     return router;
 };

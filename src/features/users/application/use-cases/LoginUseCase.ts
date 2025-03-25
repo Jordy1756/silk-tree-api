@@ -3,10 +3,10 @@ import { IAuthService } from "../../domain/interfaces/IAuthService";
 import { IUserRepository } from "../../domain/interfaces/IUserRepository";
 import { UserDTO } from "../dtos/UserDTO";
 
-export class ManageAuth {
+export class LoginUseCase {
     constructor(private userRepository: IUserRepository, private authService: IAuthService) {}
 
-    async login({ email, password }: UserDTO): Promise<{ user: User; token: string }> {
+    async execute({ email, password }: UserDTO): Promise<{ user: User; token: string }> {
         const user = await this.userRepository.findByEmail(email);
 
         if (!user) throw new Error("INVALID_CREDENTIALS");
