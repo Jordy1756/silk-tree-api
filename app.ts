@@ -1,18 +1,17 @@
-// import express, { json } from "express";
-// import cors from "cors";
-// import { connection } from "./src/shared/database/connection.ts";
 import "reflect-metadata";
 import { InversifyExpressServer, TYPE } from "inversify-express-utils";
 import { Container } from "inversify";
-import { JWT_SECRET, PORT } from "./src/shared/config/environment.ts";
-import "./src/features/users/infrastructure/controllers/UserController.ts";
-import { UserUseCase } from "./src/features/users/application/use-cases/UserUseCase.ts";
+import { PORT } from "./src/shared/config/environment.ts";
+import { configureUserContainer } from "./src/features/users/infrastructure/container/UserContainer.ts";
 
-const container = new Container();
-container.bind<UserUseCase>("UserUseCase").to(UserUseCase)
-const server = new InversifyExpressServer(container, null, { rootPath: "/api" });
+const rootContainer = new Container();
 
-server.build().listen(PORT || 5000);
+configureUserContainer(rootContainer);
+
+
+const server = new InversifyExpressServer(rootContainer, null, { rootPath: "/api" });
+
+server.build().listen(PORT || 5000, () => console.log(`Running on http://localhost:${PORT || 5000}`));
 
 // Configurar Express
 // const app = express();

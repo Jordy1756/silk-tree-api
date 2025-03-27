@@ -1,13 +1,13 @@
 import { controller, httpGet, httpPost } from "inversify-express-utils";
+import { inject } from "inversify";
 import { Request, Response } from "express";
 import { UserDTO } from "../../application/dtos/UserDTO.ts";
 import { UserUseCase } from "../../application/use-cases/UserUseCase.ts";
 import { mapToUser } from "../../application/mappers/UserMapper.ts";
-import { inject } from "inversify";
 
 @controller("/user")
 export class UserController {
-    constructor(@inject("UserUseCase") private readonly _userUseCase: UserUseCase) {}
+    constructor(@inject(UserUseCase) private readonly _userUseCase: UserUseCase) {}
 
     @httpPost("/register")
     async register(req: Request, res: Response): Promise<void> {
@@ -21,7 +21,8 @@ export class UserController {
         }
     }
 
-    findByEmail = async (req: Request, res: Response): Promise<void> => {
+    @httpGet("/findByEmail")
+    async findByEmail(req: Request, res: Response): Promise<void> {
         try {
             const email: string = req.body;
             const user = await this._userUseCase.findByEmail(email);
@@ -32,5 +33,5 @@ export class UserController {
         } catch (error) {
             res.status(500).json({ error: "Internal server error" });
         }
-    };
+    }
 }
