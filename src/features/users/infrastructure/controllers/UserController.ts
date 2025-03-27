@@ -1,47 +1,32 @@
-import { UserDTO } from "../../application/dtos/UserDTO";
-import { CreateUserUseCase } from "../../application/use-cases/CreateUserUseCase";
-import { LoginUseCase } from "../../application/use-cases/LoginUseCase";
 import { Request, Response } from "express";
+import { UserDTO } from "../../application/dtos/UserDTO.ts";
+import { UserUseCase } from "../../application/use-cases/UserUseCase.ts";
+import { mapToUser } from "../../application/mappers/UserMapper.ts";
 
 export class UserController {
-    constructor(private createUserUseCase: CreateUserUseCase, private loginUseCase: LoginUseCase) {}
+    constructor(private readonly userUseCase: UserUseCase) {}
 
     register = async (req: Request, res: Response): Promise<void> => {
         try {
             const userData: UserDTO = req.body;
-            const user = await this.createUserUseCase.execute(userData);
+            const user = await this.userUseCase.register(mapToUser(userData));
 
-            res.status(201).json({
-                id: user.id,
-                name: user.name,
-                email: user.email,
-            });
+            res.status(201).json(user);
         } catch (error) {
-            if (error.message === "USER_ALREADY_EXISTS") {
-                res.status(409).json({ error: "User already exists" });
-            } else {
-                res.status(500).json({ error: "Internal server error" });
-            }
+            res.status(500).json({ error: "Internal server error" });
         }
     };
 
-    login = async (req: Request, res: Response): Promise<void> => {
+    findByEmail = async (req: Request, res: Response): Promise<void> => {
         try {
-            const credentials: UserDTO = req.body;
-            const { user, token } = await this.loginUseCase.execute(credentials);
+            const email: string = req.body;
+            const user = await this.userUseCase.findByEmail(email);
 
-            res.json({
-                id: user.id,
-                name: user.name,
-                email: user.email,
-                token,
-            });
+            if (user === null) throw new Error("El usuario no existe");
+
+            res.status(201).json(user);
         } catch (error) {
-            if (error.message === "INVALID_CREDENTIALS") {
-                res.status(401).json({ error: "Invalid credentials" });
-            } else {
-                res.status(500).json({ error: "Internal server error" });
-            }
+            res.status(500).json({ error: "Internal server error" });
         }
     };
 }

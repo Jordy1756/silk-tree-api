@@ -1,6 +1,6 @@
-import { User } from "../entities/User";
+import { User } from "../entities/User.ts";
 
 export interface IUserRepository {
-    regiter(user: User): Promise<User>;
+    register(user: User): Promise<User>;
     findByEmail(email: string): Promise<User | null>;
 }
