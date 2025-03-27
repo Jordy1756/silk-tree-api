@@ -2,7 +2,9 @@ import bcrypt from "bcrypt";
 import crypto from "node:crypto";
 import { User } from "../../domain/entities/User.ts";
 import { IUserRepository } from "../../domain/interfaces/IUserRepository.ts";
+import { injectable } from "inversify";
 
+@injectable()
 export class UserUseCase {
     constructor(private readonly userRepository: IUserRepository) {}
 

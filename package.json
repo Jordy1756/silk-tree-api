@@ -6,7 +6,7 @@
     "type": "module",
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1",
-        "start": "node --trace-warnings --watch --experimental-transform-types app.ts"
+        "start": "node --watch --loader ts-node/esm --inspect ./app.ts"
     },
     "repository": {
         "type": "git",
@@ -23,8 +23,11 @@
         "bcrypt": "^5.1.1",
         "cors": "^2.8.5",
         "express": "^4.21.2",
+        "inversify": "^6.2.2",
+        "inversify-express-utils": "^6.5.0",
         "jsonwebtoken": "^9.0.2",
         "mysql2": "^3.14.0",
+        "reflect-metadata": "^0.2.2",
         "zod": "^3.24.2"
     },
     "devDependencies": {
@@ -32,6 +35,8 @@
         "@types/cors": "^2.8.17",
         "@types/express": "^5.0.1",
         "@types/jsonwebtoken": "^9.0.9",
-        "@types/node": "^22.13.13"
+        "@types/node": "^22.13.13",
+        "ts-node": "^10.9.2",
+        "typescript": "^5.8.2"
     }
 }
