@@ -7,7 +7,7 @@ import "../controllers/UserController.ts";
 
 export function configureUserContainer(container: Container) {
     container.bind<IUserRepository>(USER_TYPES.IUserRepository).to(UserRepository);
-    container.bind(UserUseCase).toSelf();
+    container.bind(UserUseCase).toSelf().inSingletonScope()
 
     return container;
 }
