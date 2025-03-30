@@ -8,13 +8,13 @@ import { USER_TYPES } from "../../infrastructure/container/UserTypes.ts";
 export class UserUseCase {
     constructor(@inject(USER_TYPES.IUserRepository) private readonly _userRepository: IUserRepository) {}
 
-    register = async ({ name, lastName, email, passwordHash: password }: User): Promise<User> => {
+    async register({ name, lastName, email, passwordHash: password }: User): Promise<User> {
         const hashedPassword = await bcrypt.hash(password, 10);
         const user = User.build({ name, lastName, email, passwordHash: hashedPassword });
         return await this._userRepository.register(user);
-    };
+    }
 
-    findByEmail = async (email: string) => {
+    async findByEmail(email: string) {
         return await this._userRepository.findByEmail(email);
-    };
+    }
 }

@@ -34,5 +34,8 @@ User.init(
             validate: { notEmpty: true },
         },
     },
-    { sequelize, modelName: "User" }
+    {
+        sequelize,
+        modelName: "User",
+    }
 );

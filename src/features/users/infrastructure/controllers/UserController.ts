@@ -1,4 +1,4 @@
-import { controller, httpGet, httpPost, interfaces, request, requestParam, response } from "inversify-express-utils";
+import { controller, httpGet, httpPost, interfaces, request, response } from "inversify-express-utils";
 import { inject } from "inversify";
 import { Request, Response } from "express";
 import { UserDTO } from "../../application/dtos/UserDTO.ts";
