@@ -21,4 +21,4 @@ const server = new InversifyExpressServer(rootContainer, null, { rootPath: "/api
 
 server.build().listen(PORT || 5000, () => console.log(`Running on http://localhost:${PORT || 5000}/api`));
 
-// (async () => await sequelize.sync())();
+(async () => await sequelize.sync())();

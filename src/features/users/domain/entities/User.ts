@@ -1,4 +1,4 @@
-import { DataTypes, Model } from "sequelize";
+import { STRING, UUIDV4, Model } from "sequelize";
 import { sequelize } from "../../../../shared/database/connection.ts";
 
 export class User extends Model {
@@ -12,17 +12,27 @@ export class User extends Model {
 User.init(
     {
         id: {
-            type: DataTypes.UUIDV4,
+            type: UUIDV4,
             primaryKey: true,
-            defaultValue: DataTypes.UUIDV4,
+            defaultValue: UUIDV4,
         },
-        name: DataTypes.STRING,
-        lastName: DataTypes.STRING,
+        name: {
+            type: STRING(30),
+            validate: { notEmpty: true },
+        },
+        lastName: {
+            type: STRING(50),
+            validate: { notEmpty: true },
+        },
         email: {
-            type: DataTypes.STRING,
+            type: STRING(50),
             unique: true,
+            validate: { isEmail: true, notEmpty: true },
         },
-        passwordHash: DataTypes.STRING,
+        passwordHash: {
+            type: STRING,
+            validate: { notEmpty: true },
+        },
     },
     { sequelize, modelName: "User" }
 );
