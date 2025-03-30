@@ -17,6 +17,7 @@ export class UserController implements interfaces.Controller {
 
             res.status(201).json(user);
         } catch (error) {
+            console.error(error);
             res.status(500).json({ error: "Error interno del servidor" });
         }
     }
@@ -31,6 +32,7 @@ export class UserController implements interfaces.Controller {
 
             res.status(200).json(user);
         } catch (error) {
+            console.error(error);
             res.status(500).json({ error: "Error interno del servidor" });
         }
     }

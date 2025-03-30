@@ -1,5 +1,5 @@
 import { ErrorRequestHandler } from "express";
-import { NODE_ENV } from "../config/environment";
+import { NODE_ENV } from "../config/environment.ts";
 
 export const errorHandler: ErrorRequestHandler = (err, req, res, next) => {
     console.error(err);

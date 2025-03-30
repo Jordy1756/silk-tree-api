@@ -26,8 +26,9 @@
         "inversify": "^6.2.2",
         "inversify-express-utils": "^6.5.0",
         "jsonwebtoken": "^9.0.2",
-        "mysql2": "^3.14.0",
         "reflect-metadata": "^0.2.2",
+        "sequelize": "^6.37.7",
+        "sqlite3": "^5.1.7",
         "zod": "^3.24.2"
     },
     "devDependencies": {
