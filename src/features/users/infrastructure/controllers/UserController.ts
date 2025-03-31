@@ -22,18 +22,31 @@ export class UserController implements interfaces.Controller {
         }
     }
 
-    @httpGet("/findByEmail/:email")
-    async findByEmail(@request() req: Request, @response() res: Response): Promise<void> {
+    @httpPost("/login")
+    async login(@request() req: Request, @response() res: Response): Promise<void> {
         try {
-            const { email } = req.params;
-            const user = await this._userUseCase.findByEmail(email);
+            const userData: UserDTO = req.body;
+            const { token, user } = await this._userUseCase.login(mapToUser(userData));
 
-            if (user === null) throw new Error("El usuario no existe");
-
-            res.status(200).json(user);
+            res.status(201).json({ token, user });
         } catch (error) {
             console.error(error);
             res.status(500).json({ error: "Error interno del servidor" });
         }
     }
+
+    // @httpGet("/findByEmail/:email")
+    // async findByEmail(@request() req: Request, @response() res: Response): Promise<void> {
+    //     try {
+    //         const { email } = req.params;
+    //         const user = await this._userUseCase.findByEmail(email);
+
+    //         if (user === null) throw new Error("El usuario no existe");
+
+    //         res.status(200).json(user);
+    //     } catch (error) {
+    //         console.error(error);
+    //         res.status(500).json({ error: "Error interno del servidor" });
+    //     }
+    // }
 }
