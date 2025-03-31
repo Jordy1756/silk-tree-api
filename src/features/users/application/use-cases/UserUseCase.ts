@@ -18,17 +18,17 @@ export class UserUseCase {
         return await this._userRepository.register(user);
     }
 
-    async login(user: User) {
-        const authenticatedUser = await this._userRepository.login(user);
+    async login({ email, passwordHash }: User) {
+        const user = await this._userRepository.login(email);
 
-        if (!authenticatedUser) throw new Error("Credenciales inválidas");
+        if (!user) throw new Error("Credenciales inválidas");
 
-        const isValid = await this._authService.validateCredentials(user.passwordHash, authenticatedUser.passwordHash);
+        const isValid = await this._authService.validateCredentials(passwordHash, user.passwordHash);
 
         if (!isValid) throw new Error("Credenciales inválidas");
 
-        const token = this._authService.generateToken(authenticatedUser);
+        const token = this._authService.generateToken(user);
 
-        return { token, user: authenticatedUser };
+        return { token, user: user };
     }
 }

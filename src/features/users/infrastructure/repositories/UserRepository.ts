@@ -8,7 +8,7 @@ export class UserRepository implements IUserRepository {
         return await User.create({ name, lastName, email, passwordHash });
     }
 
-    async login({ email, passwordHash }: User): Promise<User | null> {
-        return await User.findOne({ where: { email, passwordHash },  });
+    async login(email: string): Promise<User | null> {
+        return await User.findOne({ where: { email } });
     }
 }

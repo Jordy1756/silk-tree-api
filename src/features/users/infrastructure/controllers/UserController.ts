@@ -34,19 +34,4 @@ export class UserController implements interfaces.Controller {
             res.status(500).json({ error: "Error interno del servidor" });
         }
     }
-
-    // @httpGet("/findByEmail/:email")
-    // async findByEmail(@request() req: Request, @response() res: Response): Promise<void> {
-    //     try {
-    //         const { email } = req.params;
-    //         const user = await this._userUseCase.findByEmail(email);
-
-    //         if (user === null) throw new Error("El usuario no existe");
-
-    //         res.status(200).json(user);
-    //     } catch (error) {
-    //         console.error(error);
-    //         res.status(500).json({ error: "Error interno del servidor" });
-    //     }
-    // }
 }
