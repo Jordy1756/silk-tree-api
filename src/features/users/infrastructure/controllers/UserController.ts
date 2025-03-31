@@ -4,6 +4,7 @@ import { Request, Response } from "express";
 import { UserDTO } from "../../application/dtos/UserDTO.ts";
 import { UserUseCase } from "../../application/use-cases/UserUseCase.ts";
 import { mapToUser } from "../../application/mappers/UserMapper.ts";
+import { NODE_ENV } from "../../../../shared/config/environment.ts";
 
 @controller("/user")
 export class UserController implements interfaces.Controller {
@@ -26,9 +27,16 @@ export class UserController implements interfaces.Controller {
     async login(@request() req: Request, @response() res: Response): Promise<void> {
         try {
             const userData: UserDTO = req.body;
-            const { token, user } = await this._userUseCase.login(mapToUser(userData));
+            const { accessToken, user } = await this._userUseCase.login(mapToUser(userData));
 
-            res.status(201).json({ token, user });
+            res.cookie("accessToken", accessToken, {
+                httpOnly: true,
+                secure: NODE_ENV === "production",
+                maxAge: 24 * 60 * 60 * 1000,
+                sameSite: "strict",
+            });
+
+            res.status(201).json(user);
         } catch (error) {
             console.error(error);
             res.status(500).json({ error: "Error interno del servidor" });

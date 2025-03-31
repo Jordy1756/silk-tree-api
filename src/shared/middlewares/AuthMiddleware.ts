@@ -1,37 +1,30 @@
-// import jwt from "jsonwebtoken";
-// import { NextFunction, Request, Response } from "express";
+import jwt from "jsonwebtoken";
+import { NextFunction, Request, Response } from "express";
+import { JWT_SECRET } from "../config/environment";
 
-// declare global {
-//     namespace Express {
-//         interface Request {
-//             user?: User;
-//         }
-//     }
-// }
+declare global {
+    namespace Express {
+        interface Request {
+            user?: any;
+        }
+    }
+}
 
-// import { JWT_SECRET } from "../config/environment";
-// import { User } from "../../features/users/domain/entities/User";
+export const authMiddleware = (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const token = req.cookies.accessToken;
 
-// export const authMiddleware = (req: Request, res: Response, next: NextFunction) => {
-//     try {
-//         const authHeader = req.headers.authorization;
+        if (!token) return res.status(401).json({ error: "Acceso no autorizado" });
 
-//         if (!authHeader || !authHeader.startsWith("Bearer ")) throw new Error("Token no proporcionado");
+        if (!JWT_SECRET) throw new Error("JWT_SECRET environment variable is not defined");
 
-//         const token = authHeader.split(" ")[1];
+        const decoded = jwt.verify(token, JWT_SECRET);
+        req.user = decoded;
 
-//         if (!JWT_SECRET) throw new Error("JWT_SECRET environment variable is not defined");
-
-//         const decoded = jwt.verify(token, JWT_SECRET);
-//         req.user = decoded as any;
-
-//         next();
-//     } catch (error: any) {
-//         if (error.name === "JsonWebTokenError" || error.name === "TokenExpiredError") {
-//             next(new Error("Token inválido o expirado"));
-//             return;
-//         }
-
-//         next(error);
-//     }
-// };
+        next();
+    } catch (error: any) {
+        if (error.name === "JsonWebTokenError") return res.status(401).json({ error: "Token inválido" });
+        if (error.name === "TokenExpiredError") return res.status(401).json({ error: "Token expirado" });
+        next(error);
+    }
+};

@@ -1,6 +1,7 @@
 import "reflect-metadata";
 import express, { json } from "express";
 import cors from "cors";
+import cookieParser from "cookie-parser";
 import { InversifyExpressServer, TYPE } from "inversify-express-utils";
 import { Container } from "inversify";
 import { PORT } from "./src/shared/config/environment.ts";
@@ -11,6 +12,7 @@ import { sequelize } from "./src/shared/database/connection.ts";
 const app = express();
 app.use(cors());
 app.use(json());
+app.use(cookieParser()); 
 app.use(errorHandler);
 
 const rootContainer = new Container();

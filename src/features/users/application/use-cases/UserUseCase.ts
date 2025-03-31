@@ -27,8 +27,8 @@ export class UserUseCase {
 
         if (!isValid) throw new Error("Credenciales inválidas");
 
-        const token = this._authService.generateToken(user);
+        const accessToken = this._authService.generateToken(user);
 
-        return { token, user: user };
+        return { accessToken, user: user };
     }
 }
