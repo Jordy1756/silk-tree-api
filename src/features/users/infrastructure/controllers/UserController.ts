@@ -1,4 +1,4 @@
-import { controller, httpGet, httpPost, interfaces, request, response } from "inversify-express-utils";
+import { controller, httpPost, interfaces, request, response } from "inversify-express-utils";
 import { inject } from "inversify";
 import { Request, Response } from "express";
 import { UserDTO } from "../../application/dtos/UserDTO.ts";
@@ -33,7 +33,7 @@ export class UserController implements interfaces.Controller {
                 httpOnly: true,
                 secure: NODE_ENV === "production",
                 maxAge: 24 * 60 * 60 * 1000,
-                sameSite: "strict",
+                sameSite: "lax",
             });
 
             res.status(201).json(user);
