@@ -3,7 +3,7 @@ import { inject } from "inversify";
 import { Request, Response } from "express";
 import { UserDTO } from "../../application/dtos/UserDTO.ts";
 import { UserUseCase } from "../../application/use-cases/UserUseCase.ts";
-import { mapToUser } from "../../application/mappers/UserMapper.ts";
+import { mapToUser, mapToUserDTO } from "../../application/mappers/UserMapper.ts";
 import { NODE_ENV } from "../../../../shared/config/environment.ts";
 
 @controller("/user")
@@ -29,14 +29,14 @@ export class UserController implements interfaces.Controller {
             const userData: UserDTO = req.body;
             const { accessToken, user } = await this._userUseCase.login(mapToUser(userData));
 
-            res.cookie("accessToken", accessToken, {
+            res.cookie("access_token", accessToken, {
                 httpOnly: true,
                 secure: NODE_ENV === "production",
                 maxAge: 24 * 60 * 60 * 1000,
                 sameSite: "lax",
             });
 
-            res.status(201).json(user);
+            res.status(201).json(mapToUserDTO(user));
         } catch (error) {
             console.error(error);
             res.status(500).json({ error: "Error interno del servidor" });

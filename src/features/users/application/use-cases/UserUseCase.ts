@@ -1,10 +1,8 @@
-import bcrypt from "bcrypt";
 import { User } from "../../domain/entities/User.ts";
 import { IUserRepository } from "../../domain/interfaces/IUserRepository.ts";
 import { inject, injectable } from "inversify";
 import { USER_TYPES } from "../../infrastructure/container/UserTypes.ts";
 import { IAuthService } from "../../domain/interfaces/IAuthService.ts";
-import { SALT_ROUNDS } from "../../../../shared/config/environment.ts";
 
 @injectable()
 export class UserUseCase {
@@ -14,7 +12,7 @@ export class UserUseCase {
     ) {}
 
     async register({ name, lastName, email, passwordHash: password }: User): Promise<User> {
-        const hashedPassword = await bcrypt.hash(password, +(SALT_ROUNDS || 10));
+        const hashedPassword = await this._authService.hashPassword(password);
         const user = User.build({ name, lastName, email, passwordHash: hashedPassword });
         return await this._userRepository.register(user);
     }
