@@ -2,25 +2,29 @@ import { DataTypes, Model } from "sequelize";
 import { sequelize } from "../../../../shared/database/connection.ts";
 
 export class Specialty extends Model {
-    declare id: string;
+    declare id: number;
     declare name: string;
 }
 
 Specialty.init(
     {
         id: {
-            type: DataTypes.UUID,
+            type: DataTypes.INTEGER,
             primaryKey: true,
-            defaultValue: DataTypes.UUIDV4,
+            autoIncrement: true,
+            field: "SPECIALTY_ID",
         },
         name: {
             type: DataTypes.STRING(50),
             unique: true,
             validate: { notEmpty: true },
+            field: "NAME",
         },
     },
     {
         sequelize,
         modelName: "Specialty",
+        tableName: "SPECIALTY",
+        timestamps: false,
     }
 );

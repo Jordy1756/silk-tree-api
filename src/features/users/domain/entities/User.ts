@@ -15,27 +15,34 @@ User.init(
             type: DataTypes.UUID,
             primaryKey: true,
             defaultValue: DataTypes.UUIDV4,
+            field: "USER_ID",
         },
         name: {
             type: DataTypes.STRING(30),
             validate: { notEmpty: true },
+            field: "NAME",
         },
         lastName: {
             type: DataTypes.STRING(50),
             validate: { notEmpty: true },
+            field: "LAST_NAME",
         },
         email: {
             type: DataTypes.STRING(50),
             unique: true,
             validate: { isEmail: true, notEmpty: true },
+            field: "EMAIL",
         },
         passwordHash: {
             type: DataTypes.STRING,
             validate: { notEmpty: true },
+            field: "PASSWORD_HASH",
         },
     },
     {
         sequelize,
         modelName: "User",
+        tableName: "USER",
+        timestamps: false
     }
 );
