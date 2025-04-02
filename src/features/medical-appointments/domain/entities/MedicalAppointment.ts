@@ -1,4 +1,4 @@
-import { DataTypes, Deferrable, Model } from "sequelize";
+import { DataTypes, Model } from "sequelize";
 import { Specialty } from "./Specialty.ts";
 import { sequelize } from "../../../../shared/database/connection.ts";
 

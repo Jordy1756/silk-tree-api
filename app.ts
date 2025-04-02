@@ -8,6 +8,7 @@ import { PORT } from "./src/shared/config/environment.ts";
 import { configureUserContainer } from "./src/features/users/infrastructure/container/UserContainer.ts";
 import { errorHandler } from "./src/shared/errors/errorHandler.ts";
 import { sequelize } from "./src/shared/database/connection.ts";
+import { configureMedicalAppointmentContainer } from "./src/features/medical-appointments/infrastructure/container/MedicalAppointmentContainer.ts";
 
 const app = express();
 app.disable("x-powered-by");
@@ -19,6 +20,7 @@ app.use(errorHandler);
 const rootContainer = new Container();
 
 configureUserContainer(rootContainer);
+configureMedicalAppointmentContainer(rootContainer);
 
 const server = new InversifyExpressServer(rootContainer, null, { rootPath: "/api" }, app);
 
