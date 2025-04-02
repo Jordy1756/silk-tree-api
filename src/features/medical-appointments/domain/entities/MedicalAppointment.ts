@@ -7,6 +7,7 @@ export class MedicalAppointment extends Model {
     declare title: string;
     declare startDate: Date;
     declare endDate: Date;
+    declare specialtyId: number;
     declare specialty: Specialty;
 }
 
@@ -49,3 +50,16 @@ MedicalAppointment.init(
         timestamps: false,
     }
 );
+
+Specialty.hasMany(MedicalAppointment, {
+    foreignKey: "specialtyId",
+    sourceKey: "id",
+    as: "medicalAppointments",
+});
+
+// Una cita médica pertenece a una especialidad
+MedicalAppointment.belongsTo(Specialty, {
+    foreignKey: "specialtyId",
+    targetKey: "id",
+    as: "specialty",
+});

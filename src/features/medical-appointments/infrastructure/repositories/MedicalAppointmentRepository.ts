@@ -1,6 +1,7 @@
 import { injectable } from "inversify";
 import { MedicalAppointment } from "../../domain/entities/MedicalAppointment";
 import { IMedicalAppointmentRepository } from "../../domain/interfaces/IMedicalAppointmentRepository";
+import { Specialty } from "../../domain/entities/Specialty";
 
 @injectable()
 export class MedicalAppointmentRepository implements IMedicalAppointmentRepository {
@@ -9,9 +10,9 @@ export class MedicalAppointmentRepository implements IMedicalAppointmentReposito
         title,
         startDate,
         endDate,
-        specialty,
+        specialtyId,
     }: MedicalAppointment): Promise<MedicalAppointment> {
-        return await MedicalAppointment.create({ id, title, startDate, endDate, specialtyId: specialty.id });
+        return await MedicalAppointment.create({ id, title, startDate, endDate, specialtyId });
     }
 
     async updateMedicalAppointment(medicalAppointment: MedicalAppointment): Promise<MedicalAppointment> {
@@ -20,5 +21,16 @@ export class MedicalAppointmentRepository implements IMedicalAppointmentReposito
 
     async deleteMedicalAppointment(medicalAppointmentId: string): Promise<number> {
         throw new Error("Method not implemented.");
+    }
+
+    async getAllMedicalAppointments(): Promise<MedicalAppointment[]> {
+        return await MedicalAppointment.findAll({
+            include: [
+                {
+                    model: Specialty,
+                    as: "specialty",
+                },
+            ],
+        });
     }
 }

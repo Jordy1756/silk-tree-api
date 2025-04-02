@@ -13,4 +13,8 @@ export class MedicalAppointmentUseCase {
     async insertMedicalAppointment(medicalAppointment: MedicalAppointment) {
         return await this._medicalAppointmentRepository.insertMedicalAppointment(medicalAppointment);
     }
+
+    async getAllMedicalAppointments() {
+        return await this._medicalAppointmentRepository.getAllMedicalAppointments();
+    }
 }

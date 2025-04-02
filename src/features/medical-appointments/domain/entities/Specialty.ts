@@ -1,5 +1,6 @@
 import { DataTypes, Model } from "sequelize";
 import { sequelize } from "../../../../shared/database/connection.ts";
+import { MedicalAppointment } from "./MedicalAppointment.ts";
 
 export class Specialty extends Model {
     declare id: number;

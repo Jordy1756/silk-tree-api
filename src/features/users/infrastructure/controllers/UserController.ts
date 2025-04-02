@@ -16,7 +16,7 @@ export class UserController implements interfaces.Controller {
             const userData: UserDTO = req.body;
             const user = await this._userUseCase.register(mapToUser(userData));
 
-            res.status(201).json(user);
+            res.status(201).json(mapToUserDTO(user));
         } catch (error) {
             console.error(error);
             res.status(500).json({ error: "Error interno del servidor" });
