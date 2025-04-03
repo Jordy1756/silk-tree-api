@@ -27,12 +27,19 @@ export class UserController implements interfaces.Controller {
     async login(@request() req: Request, @response() res: Response): Promise<void> {
         try {
             const userData: UserDTO = req.body;
-            const { accessToken, user } = await this._userUseCase.login(mapToUser(userData));
+            const { accessToken, refreshToken, user } = await this._userUseCase.login(mapToUser(userData));
 
             res.cookie("access_token", accessToken, {
                 httpOnly: true,
                 secure: NODE_ENV === "production",
-                maxAge: 24 * 60 * 60 * 1000,
+                maxAge: 60 * 1000,
+                sameSite: "lax",
+            });
+
+            res.cookie("refresh_token", refreshToken, {
+                httpOnly: true,
+                secure: NODE_ENV === "production",
+                maxAge: 2 * 60 * 1000,
                 sameSite: "lax",
             });
 

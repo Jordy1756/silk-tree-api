@@ -3,7 +3,7 @@ import jwt from "jsonwebtoken";
 import { injectable } from "inversify";
 import { User } from "../entities/User";
 import { IAuthService } from "../interfaces/IAuthService";
-import { JWT_SECRET, SALT_ROUNDS } from "../../../../shared/config/environment";
+import { SECRET_KEY, SALT_ROUNDS, REFRESH_SECRET_KEY, NODE_ENV } from "../../../../shared/config/environment";
 
 @injectable()
 export class AuthService implements IAuthService {
@@ -17,9 +17,18 @@ export class AuthService implements IAuthService {
         return await bcrypt.compare(password, hash);
     }
 
-    generateToken({ id, email }: User): string {
-        if (!JWT_SECRET) throw new Error("JWT_SECRET environment variable is not defined");
+    generateAccessToken(paylod: Object): string {
+        if (!SECRET_KEY) throw new Error("SECRET_KEY environment variable is not defined");
+        return jwt.sign(paylod, SECRET_KEY, { expiresIn: "1m" });
+    }
+
+    generateRefreshToken(paylod: Object): string {
+        if (!REFRESH_SECRET_KEY) throw new Error("REFRESH_SECRET_KEY environment variable is not defined");
+        return jwt.sign(paylod, REFRESH_SECRET_KEY, { expiresIn: "2m" });
+    }
+
+    generateTokens({ id, email }: User) {
         const paylod = { id, email };
-        return jwt.sign(paylod, JWT_SECRET, { expiresIn: "24h" });
+        return { accessToken: this.generateAccessToken(paylod), refreshToken: this.generateRefreshToken(paylod) };
     }
 }

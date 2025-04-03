@@ -1,6 +1,6 @@
 import jwt from "jsonwebtoken";
 import { NextFunction, Request, Response } from "express";
-import { JWT_SECRET } from "../config/environment";
+import { SECRET_KEY } from "../config/environment";
 
 declare global {
     namespace Express {
@@ -17,9 +17,9 @@ export const authMiddleware = (req: Request, res: Response, next: NextFunction) 
     try {
         if (!token) return res.status(401).json({ error: "Acceso no autorizado" });
 
-        if (!JWT_SECRET) throw new Error("JWT_SECRET environment variable is not defined");
+        if (!SECRET_KEY) throw new Error("JWT_SECRET environment variable is not defined");
 
-        const data = jwt.verify(token, JWT_SECRET);
+        const data = jwt.verify(token, SECRET_KEY);
         req.session.user = data;
     } catch (error: any) {
         if (error.name === "JsonWebTokenError") return res.status(401).json({ error: "Token inválido" });
