@@ -6,21 +6,26 @@ import { Specialty } from "../../domain/entities/Specialty";
 @injectable()
 export class MedicalAppointmentRepository implements IMedicalAppointmentRepository {
     async insertMedicalAppointment({
-        id,
         title,
         startDate,
         endDate,
         specialtyId,
     }: MedicalAppointment): Promise<MedicalAppointment> {
-        return await MedicalAppointment.create({ id, title, startDate, endDate, specialtyId });
+        return await MedicalAppointment.create({ title, startDate, endDate, specialtyId });
     }
 
-    async updateMedicalAppointment(medicalAppointment: MedicalAppointment): Promise<MedicalAppointment> {
-        throw new Error("Method not implemented.");
+    async updateMedicalAppointment({
+        id,
+        title,
+        startDate,
+        endDate,
+        specialtyId,
+    }: MedicalAppointment): Promise<Number> {
+        return (await MedicalAppointment.update({ title, startDate, endDate, specialtyId }, { where: { id } }))[0];
     }
 
     async deleteMedicalAppointment(medicalAppointmentId: string): Promise<number> {
-        throw new Error("Method not implemented.");
+        return await MedicalAppointment.destroy({ where: { id: medicalAppointmentId } });
     }
 
     async getAllMedicalAppointments(): Promise<MedicalAppointment[]> {

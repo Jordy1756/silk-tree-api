@@ -1,6 +1,15 @@
 import { inject } from "inversify";
 import { Request, Response } from "express";
-import { controller, httpGet, httpPost, interfaces, request, response } from "inversify-express-utils";
+import {
+    controller,
+    httpDelete,
+    httpGet,
+    httpPost,
+    httpPut,
+    interfaces,
+    request,
+    response,
+} from "inversify-express-utils";
 import { MedicalAppointmentDTO } from "../../application/dtos/MedicalAppointmentDTO.ts";
 import { MedicalAppointmentUseCase } from "../../application/use-cases/MedicalAppointmentUseCase.ts";
 import {
@@ -24,6 +33,33 @@ export class MedicalAppointmentController implements interfaces.Controller {
             );
 
             res.status(200).json(medicalAppointment);
+        } catch (error) {
+            console.log(error);
+            res.status(500).json({ error: "Error interno del servidor" });
+        }
+    }
+
+    @httpPut("/updateMedicalAppointment")
+    async updateMedicalAppointment(@request() req: Request, @response() res: Response): Promise<void> {
+        try {
+            const medicalAppointmentData: MedicalAppointmentDTO = req.body;
+
+            const medicalAppointment = await this._medicalAppointmentUseCase.updateMedicalAppointment(
+                mapToMedicalAppointment(medicalAppointmentData)
+            );
+
+            res.status(200).json(medicalAppointment);
+        } catch (error) {
+            console.log(error);
+            res.status(500).json({ error: "Error interno del servidor" });
+        }
+    }
+
+    @httpDelete("/deleteMedicalAppointment/:medicalAppointmentId")
+    async deleteMedicalAppointment(@request() req: Request, @response() res: Response): Promise<void> {
+        try {
+            const { medicalAppointmentId } = req.params;
+            res.status(200).json(await this._medicalAppointmentUseCase.deleteMedicalAppointment(medicalAppointmentId));
         } catch (error) {
             console.log(error);
             res.status(500).json({ error: "Error interno del servidor" });
