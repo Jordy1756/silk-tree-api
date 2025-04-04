@@ -1,7 +1,7 @@
 import { injectable } from "inversify";
-import { MedicalAppointment } from "../../domain/entities/MedicalAppointment";
-import { IMedicalAppointmentRepository } from "../../domain/interfaces/IMedicalAppointmentRepository";
-import { Specialty } from "../../domain/entities/Specialty";
+import { MedicalAppointment } from "../../domain/entities/MedicalAppointment.ts";
+import { IMedicalAppointmentRepository } from "../../domain/interfaces/IMedicalAppointmentRepository.ts";
+import { Specialty } from "../../domain/entities/Specialty.ts";
 import { Op } from "sequelize";
 
 @injectable()
@@ -53,9 +53,7 @@ export class MedicalAppointmentRepository implements IMedicalAppointmentReposito
 
     async getAllMedicalAppointments(userId: string): Promise<MedicalAppointment[]> {
         return await MedicalAppointment.findAll({
-            where: {
-                id: userId,
-            },
+            where: { userId },
             include: [
                 {
                     model: Specialty,
