@@ -5,6 +5,7 @@ import { UserDTO } from "../../application/dtos/UserDTO.ts";
 import { UserUseCase } from "../../application/use-cases/UserUseCase.ts";
 import { mapToUser, mapToUserDTO } from "../../application/mappers/UserMapper.ts";
 import { getTokenCookieConfig } from "../utils/handleJTW.ts";
+import { InternalServerError, UnauthorizedError } from "../../../../shared/errors/errorClasses.ts";
 
 @controller("/user")
 export class UserController implements interfaces.Controller {
@@ -18,8 +19,7 @@ export class UserController implements interfaces.Controller {
 
             res.status(201).json(mapToUserDTO(user));
         } catch (error) {
-            console.error(error);
-            res.status(500).json({ error: "Error interno del servidor" });
+            throw error;
         }
     }
 
@@ -34,8 +34,7 @@ export class UserController implements interfaces.Controller {
 
             res.status(201).json(mapToUserDTO(user));
         } catch (error) {
-            console.error(error);
-            res.status(500).json({ error: "Error interno del servidor" });
+            throw error;
         }
     }
 
@@ -44,10 +43,7 @@ export class UserController implements interfaces.Controller {
         try {
             const refreshToken = req.cookies.refresh_token;
 
-            if (!refreshToken) {
-                res.status(401).json({ error: "No se proporcionó refresh token" });
-                return;
-            }
+            if (!refreshToken) throw new UnauthorizedError("No se proporcionó refresh token");
 
             const { newAccessToken, newRefreshToken } = await this._userUseCase.refreshTokens(refreshToken);
 
@@ -56,16 +52,10 @@ export class UserController implements interfaces.Controller {
 
             res.status(200).json({ message: "Tokens renovados exitosamente" });
         } catch (error) {
-            console.error(error);
-
             res.clearCookie("access_token");
             res.clearCookie("refresh_token");
 
-            if (error instanceof Error && error.message === "Token inválido o expirado") {
-                res.status(401).json({ error: error.message });
-            } else {
-                res.status(500).json({ error: "Error interno del servidor" });
-            }
+            throw error;
         }
     }
 
@@ -77,8 +67,7 @@ export class UserController implements interfaces.Controller {
 
             res.status(200).json({ message: "Sesión cerrada exitosamente" });
         } catch (error) {
-            console.error(error);
-            res.status(500).json({ error: "Error interno del servidor" });
+            throw new InternalServerError("Error al cerrar sesión");
         }
     }
 }

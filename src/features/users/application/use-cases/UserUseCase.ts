@@ -3,6 +3,7 @@ import { IUserRepository } from "../../domain/interfaces/IUserRepository.ts";
 import { inject, injectable } from "inversify";
 import { USER_TYPES } from "../../infrastructure/container/UserTypes.ts";
 import { IAuthService } from "../../domain/interfaces/IAuthService.ts";
+import { NotFoundError, UnauthorizedError } from "../../../../shared/errors/errorClasses.ts";
 
 @injectable()
 export class UserUseCase {
@@ -20,11 +21,11 @@ export class UserUseCase {
     async login({ email, passwordHash }: User) {
         const user = await this._userRepository.login(email);
 
-        if (!user) throw new Error("Credenciales inválidas");
+        if (!user) throw new NotFoundError("Usuario no encontrado");
 
         const isValid = await this._authService.validateCredentials(passwordHash, user.passwordHash);
 
-        if (!isValid) throw new Error("Credenciales inválidas");
+        if (!isValid) throw new UnauthorizedError("Credenciales inválidas");
 
         const { accessToken, refreshToken } = this._authService.generateTokens(user);
 
@@ -36,7 +37,7 @@ export class UserUseCase {
 
         const user = await this._userRepository.findById(id);
 
-        if (!user) throw new Error("Usuario no encontrado");
+        if (!user) throw new NotFoundError("Usuario no encontrado");
 
         const { accessToken: newAccessToken, refreshToken: newRefreshToken } = this._authService.generateTokens(user);
 
