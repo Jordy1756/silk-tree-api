@@ -1,6 +1,7 @@
 import { DataTypes, Model } from "sequelize";
 import { Specialty } from "./Specialty.ts";
 import { sequelize } from "../../../../shared/database/connection.ts";
+import { User } from "../../../users/domain/entities/User.ts";
 
 export class MedicalAppointment extends Model {
     declare id: string;
@@ -8,6 +9,7 @@ export class MedicalAppointment extends Model {
     declare startDate: Date;
     declare endDate: Date;
     declare specialtyId: number;
+    declare userId: string;
     declare specialty: Specialty;
 }
 
@@ -42,6 +44,14 @@ MedicalAppointment.init(
             },
             field: "SPECIALTY_ID",
         },
+        userId: {
+            type: DataTypes.UUID,
+            references: {
+                model: User,
+                key: "USER_ID",
+            },
+            field: "USER_ID",
+        },
     },
     {
         sequelize,
@@ -57,9 +67,20 @@ Specialty.hasMany(MedicalAppointment, {
     as: "medicalAppointments",
 });
 
-// Una cita médica pertenece a una especialidad
+User.hasMany(MedicalAppointment, {
+    foreignKey: "userId",
+    sourceKey: "id",
+    as: "medicalAppointments",
+});
+
 MedicalAppointment.belongsTo(Specialty, {
     foreignKey: "specialtyId",
     targetKey: "id",
     as: "specialty",
+});
+
+MedicalAppointment.belongsTo(User, {
+    foreignKey: "userId",
+    targetKey: "id",
+    as: "user",
 });

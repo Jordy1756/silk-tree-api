@@ -7,11 +7,13 @@ export const mapToMedicalAppointment = ({
     title,
     start: startDate,
     end: endDate,
+    userId,
     specialty: specialtyDTO,
-}: MedicalAppointmentDTO) => MedicalAppointment.build({ id, title, startDate, endDate, specialtyId: specialtyDTO.id });
+}: MedicalAppointmentDTO) =>
+    MedicalAppointment.build({ id, title, startDate, endDate, userId, specialtyId: specialtyDTO.id });
 
-export const mapToMedicalAppointmentDTO = ({ id, title, startDate, endDate, specialty }: MedicalAppointment) =>
-    new MedicalAppointmentDTO(id, title, startDate, endDate, mapToSpecialtyDTO(specialty));
+export const mapToMedicalAppointmentDTO = ({ id, title, startDate, endDate, userId, specialty }: MedicalAppointment) =>
+    new MedicalAppointmentDTO(id, title, startDate, endDate, userId, mapToSpecialtyDTO(specialty));
 
 export const mapToMedicalAppointmentDTOs = (medicalAppointments: MedicalAppointment[]) =>
     medicalAppointments.map((medicalAppointment) => mapToMedicalAppointmentDTO(medicalAppointment));

@@ -6,6 +6,7 @@ export class MedicalAppointmentDTO {
         public title: string,
         public start: Date,
         public end: Date,
+        public userId: string,
         public specialty: SpecialtyDTO
     ) {}
 }

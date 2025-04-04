@@ -16,6 +16,7 @@ import {
     mapToMedicalAppointment,
     mapToMedicalAppointmentDTOs,
 } from "../../application/mappers/MedicalAppointmentMapper.ts";
+import { authMiddleware } from "../../../../shared/middlewares/AuthMiddleware.ts";
 
 @controller("/medicalAppointment")
 export class MedicalAppointmentController implements interfaces.Controller {
@@ -23,11 +24,13 @@ export class MedicalAppointmentController implements interfaces.Controller {
         @inject(MedicalAppointmentUseCase) private readonly _medicalAppointmentUseCase: MedicalAppointmentUseCase
     ) {}
 
-    @httpPost("/insertMedicalAppointment")
+    @httpPost("/insertMedicalAppointment", authMiddleware)
     async insertMedicalAppointment(@request() req: Request, @response() res: Response): Promise<void> {
-        try {
-            const medicalAppointmentData: MedicalAppointmentDTO = req.body;
+        const { user } = req.session;
+        const medicalAppointmentData: MedicalAppointmentDTO = req.body;
+        medicalAppointmentData.userId = user.id;
 
+        try {
             const medicalAppointment = await this._medicalAppointmentUseCase.insertMedicalAppointment(
                 mapToMedicalAppointment(medicalAppointmentData)
             );
@@ -39,11 +42,13 @@ export class MedicalAppointmentController implements interfaces.Controller {
         }
     }
 
-    @httpPut("/updateMedicalAppointment")
+    @httpPut("/updateMedicalAppointment", authMiddleware)
     async updateMedicalAppointment(@request() req: Request, @response() res: Response): Promise<void> {
-        try {
-            const medicalAppointmentData: MedicalAppointmentDTO = req.body;
+        const { user } = req.session;
+        const medicalAppointmentData: MedicalAppointmentDTO = req.body;
+        medicalAppointmentData.userId = user.id;
 
+        try {
             const medicalAppointment = await this._medicalAppointmentUseCase.updateMedicalAppointment(
                 mapToMedicalAppointment(medicalAppointmentData)
             );
@@ -55,21 +60,26 @@ export class MedicalAppointmentController implements interfaces.Controller {
         }
     }
 
-    @httpDelete("/deleteMedicalAppointment/:medicalAppointmentId")
+    @httpDelete("/deleteMedicalAppointment/:medicalAppointmentId", authMiddleware)
     async deleteMedicalAppointment(@request() req: Request, @response() res: Response): Promise<void> {
+        const { medicalAppointmentId } = req.params;
+        const { user } = req.session;
+
         try {
-            const { medicalAppointmentId } = req.params;
-            res.status(200).json(await this._medicalAppointmentUseCase.deleteMedicalAppointment(medicalAppointmentId));
+            res.status(200).json(
+                await this._medicalAppointmentUseCase.deleteMedicalAppointment(medicalAppointmentId, user.id)
+            );
         } catch (error) {
             console.log(error);
             res.status(500).json({ error: "Error interno del servidor" });
         }
     }
 
-    @httpGet("/getAllMedicalAppointments")
+    @httpGet("/getAllMedicalAppointments", authMiddleware)
     async getAllMedicalAppointments(@request() req: Request, @response() res: Response): Promise<void> {
         try {
-            const medicalAppointments = await this._medicalAppointmentUseCase.getAllMedicalAppointments();
+            const { user } = req.session;
+            const medicalAppointments = await this._medicalAppointmentUseCase.getAllMedicalAppointments(user.id);
             res.status(200).json(mapToMedicalAppointmentDTOs(medicalAppointments));
         } catch (error) {
             console.log(error);

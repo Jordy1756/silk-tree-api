@@ -10,12 +10,13 @@ export class MedicalAppointmentRepository implements IMedicalAppointmentReposito
         title,
         startDate,
         endDate,
+        userId,
         specialtyId,
     }: MedicalAppointment): Promise<MedicalAppointment> {
         if (await this.checkOverlappingMedicalAppointment(specialtyId, startDate, endDate))
             throw new Error("Horario no disponible");
 
-        return await MedicalAppointment.create({ title, startDate, endDate, specialtyId });
+        return await MedicalAppointment.create({ title, startDate, endDate, userId, specialtyId });
     }
 
     async updateMedicalAppointment({
@@ -23,16 +24,19 @@ export class MedicalAppointmentRepository implements IMedicalAppointmentReposito
         title,
         startDate,
         endDate,
+        userId,
         specialtyId,
     }: MedicalAppointment): Promise<Number> {
         if (await this.checkOverlappingMedicalAppointment(specialtyId, startDate, endDate))
             throw new Error("Horario no disponible");
 
-        return (await MedicalAppointment.update({ title, startDate, endDate, specialtyId }, { where: { id } }))[0];
+        return (
+            await MedicalAppointment.update({ title, startDate, endDate, specialtyId }, { where: { id, userId } })
+        )[0];
     }
 
-    async deleteMedicalAppointment(medicalAppointmentId: string): Promise<number> {
-        return await MedicalAppointment.destroy({ where: { id: medicalAppointmentId } });
+    async deleteMedicalAppointment(medicalAppointmentId: string, userId: string): Promise<number> {
+        return await MedicalAppointment.destroy({ where: { id: medicalAppointmentId, userId } });
     }
 
     async checkOverlappingMedicalAppointment(specialtyId: number, startDate: Date, endDate: Date) {
@@ -47,8 +51,11 @@ export class MedicalAppointmentRepository implements IMedicalAppointmentReposito
         });
     }
 
-    async getAllMedicalAppointments(): Promise<MedicalAppointment[]> {
+    async getAllMedicalAppointments(userId: string): Promise<MedicalAppointment[]> {
         return await MedicalAppointment.findAll({
+            where: {
+                id: userId,
+            },
             include: [
                 {
                     model: Specialty,

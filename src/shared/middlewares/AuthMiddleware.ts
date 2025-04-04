@@ -1,6 +1,6 @@
 import jwt from "jsonwebtoken";
 import { NextFunction, Request, Response } from "express";
-import { SECRET_KEY } from "../config/environment";
+import { SECRET_KEY } from "../config/environment.ts";
 
 declare global {
     namespace Express {
@@ -15,12 +15,11 @@ export const authMiddleware = (req: Request, res: Response, next: NextFunction) 
     req.session = { user: null };
 
     try {
-        if (!token) return res.status(401).json({ error: "Acceso no autorizado" });
+        if (!token) return res.status(401).json({ error: "Acceso no autorizado 33" });
 
-        if (!SECRET_KEY) throw new Error("JWT_SECRET environment variable is not defined");
+        if (!SECRET_KEY) throw new Error("La variable de entorno JWT_SECRET no está definida");
 
-        const data = jwt.verify(token, SECRET_KEY);
-        req.session.user = data;
+        req.session.user = jwt.verify(token, SECRET_KEY);
     } catch (error: any) {
         if (error.name === "JsonWebTokenError") return res.status(401).json({ error: "Token inválido" });
         if (error.name === "TokenExpiredError") return res.status(401).json({ error: "Token expirado" });
@@ -29,14 +28,3 @@ export const authMiddleware = (req: Request, res: Response, next: NextFunction) 
 
     next();
 };
-
-// import { Request, Response, NextFunction } from "express";
-
-// export const authMiddleware: (req: Request, res: Response, next: NextFunction) => void = (req, res, next) => {
-//     // Middleware logic
-//     if (!req.headers.authorization) {
-//         res.status(401).json({ error: "Unauthorized" });
-//         return;
-//     }
-//     next();
-// };

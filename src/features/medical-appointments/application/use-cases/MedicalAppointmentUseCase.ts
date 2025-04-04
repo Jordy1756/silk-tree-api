@@ -18,11 +18,11 @@ export class MedicalAppointmentUseCase {
         return await this._medicalAppointmentRepository.updateMedicalAppointment(medicalAppointment);
     }
 
-    async deleteMedicalAppointment(medicalAppointmentId: string) {
-        return await this._medicalAppointmentRepository.deleteMedicalAppointment(medicalAppointmentId);
+    async deleteMedicalAppointment(medicalAppointmentId: string, userId: string) {
+        return await this._medicalAppointmentRepository.deleteMedicalAppointment(medicalAppointmentId, userId);
     }
 
-    async getAllMedicalAppointments() {
-        return await this._medicalAppointmentRepository.getAllMedicalAppointments();
+    async getAllMedicalAppointments(userId: string) {
+        return await this._medicalAppointmentRepository.getAllMedicalAppointments(userId);
     }
 }
