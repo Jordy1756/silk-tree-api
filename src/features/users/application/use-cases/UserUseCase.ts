@@ -30,4 +30,16 @@ export class UserUseCase {
 
         return { accessToken, refreshToken, user };
     }
+
+    async refreshTokens(refreshToken: string) {
+        const { id } = this._authService.verifyRefreshToken(refreshToken);
+
+        const user = await this._userRepository.findById(id);
+
+        if (!user) throw new Error("Usuario no encontrado");
+
+        const { accessToken: newAccessToken, refreshToken: newRefreshToken } = this._authService.generateTokens(user);
+
+        return { newAccessToken, newRefreshToken };
+    }
 }

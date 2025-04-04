@@ -27,8 +27,14 @@ export class AuthService implements IAuthService {
         return jwt.sign(paylod, REFRESH_SECRET_KEY, { expiresIn: "2m" });
     }
 
-    generateTokens({ id, email }: User) {
+    generateTokens({ id, email }: User): { accessToken: string; refreshToken: string } {
         const paylod = { id, email };
         return { accessToken: this.generateAccessToken(paylod), refreshToken: this.generateRefreshToken(paylod) };
+    }
+
+    verifyRefreshToken(token: string): { id: string; email: string } {
+        if (!REFRESH_SECRET_KEY) throw new Error("REFRESH_SECRET_KEY environment variable is not defined");
+
+        return jwt.verify(token, REFRESH_SECRET_KEY) as { id: string; email: string };
     }
 }
