@@ -50,7 +50,7 @@ export class UserController implements interfaces.Controller {
             res.cookie("access_token", newAccessToken, getTokenCookieConfig(60 * 1000));
             res.cookie("refresh_token", newRefreshToken, getTokenCookieConfig(2 * 60 * 1000));
 
-            res.status(200).json({ message: "Tokens renovados exitosamente" });
+            res.status(201).json({ message: "Tokens renovados exitosamente" });
         } catch (error) {
             res.clearCookie("access_token");
             res.clearCookie("refresh_token");
@@ -65,7 +65,7 @@ export class UserController implements interfaces.Controller {
             res.clearCookie("access_token");
             res.clearCookie("refresh_token");
 
-            res.status(200).json({ message: "Sesión cerrada exitosamente" });
+            res.status(201).json({ message: "Sesión cerrada exitosamente" });
         } catch (error) {
             throw new InternalServerError("Error al cerrar sesión");
         }

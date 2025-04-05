@@ -2,6 +2,7 @@ import { inject, injectable } from "inversify";
 import { MEDICAL_APPOINTMENT_TYPES } from "../../infrastructure/container/MedicalAppointmentTypes.ts";
 import { IMedicalAppointmentRepository } from "../../domain/interfaces/IMedicalAppointmentRepository.ts";
 import { MedicalAppointment } from "../../domain/entities/MedicalAppointment.ts";
+import { ValidationError } from "../../../../shared/errors/errorClasses.ts";
 
 @injectable()
 export class MedicalAppointmentUseCase {
@@ -11,10 +12,16 @@ export class MedicalAppointmentUseCase {
     ) {}
 
     async insertMedicalAppointment(medicalAppointment: MedicalAppointment) {
+        if (await this._medicalAppointmentRepository.checkOverlappingMedicalAppointment(medicalAppointment))
+            throw new ValidationError("Horario no disponible");
+
         return await this._medicalAppointmentRepository.insertMedicalAppointment(medicalAppointment);
     }
 
     async updateMedicalAppointment(medicalAppointment: MedicalAppointment) {
+        if (await this._medicalAppointmentRepository.checkOverlappingMedicalAppointment(medicalAppointment))
+            throw new ValidationError("Horario no disponible");
+
         return await this._medicalAppointmentRepository.updateMedicalAppointment(medicalAppointment);
     }
 

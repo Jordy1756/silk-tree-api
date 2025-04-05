@@ -16,7 +16,7 @@ import {
     mapToMedicalAppointment,
     mapToMedicalAppointmentDTOs,
 } from "../../application/mappers/MedicalAppointmentMapper.ts";
-import { authMiddleware } from "../../../../shared/middlewares/AuthMiddleware.ts";
+import { authMiddleware } from "../../../../shared/middlewares/authMiddleware.ts";
 
 @controller("/medicalAppointment")
 export class MedicalAppointmentController implements interfaces.Controller {
@@ -35,10 +35,9 @@ export class MedicalAppointmentController implements interfaces.Controller {
                 mapToMedicalAppointment(medicalAppointmentData)
             );
 
-            res.status(200).json(medicalAppointment);
+            res.status(201).json(medicalAppointment);
         } catch (error) {
-            console.log(error);
-            res.status(500).json({ error: "Error interno del servidor" });
+            throw error;
         }
     }
 
@@ -53,10 +52,9 @@ export class MedicalAppointmentController implements interfaces.Controller {
                 mapToMedicalAppointment(medicalAppointmentData)
             );
 
-            res.status(200).json(medicalAppointment);
+            res.status(201).json(medicalAppointment);
         } catch (error) {
-            console.log(error);
-            res.status(500).json({ error: "Error interno del servidor" });
+            throw error;
         }
     }
 
@@ -70,8 +68,7 @@ export class MedicalAppointmentController implements interfaces.Controller {
                 await this._medicalAppointmentUseCase.deleteMedicalAppointment(medicalAppointmentId, user.id)
             );
         } catch (error) {
-            console.log(error);
-            res.status(500).json({ error: "Error interno del servidor" });
+            throw error;
         }
     }
 
@@ -82,8 +79,7 @@ export class MedicalAppointmentController implements interfaces.Controller {
             const medicalAppointments = await this._medicalAppointmentUseCase.getAllMedicalAppointments(user.id);
             res.status(200).json(mapToMedicalAppointmentDTOs(medicalAppointments));
         } catch (error) {
-            console.log(error);
-            res.status(500).json({ error: "Error interno del servidor" });
+            throw error;
         }
     }
 }

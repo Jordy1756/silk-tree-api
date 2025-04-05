@@ -3,7 +3,8 @@ import jwt from "jsonwebtoken";
 import { injectable } from "inversify";
 import { User } from "../entities/User";
 import { IAuthService } from "../interfaces/IAuthService";
-import { SECRET_KEY, SALT_ROUNDS, REFRESH_SECRET_KEY, NODE_ENV } from "../../../../shared/config/environment";
+import { SECRET_KEY, SALT_ROUNDS, REFRESH_SECRET_KEY } from "../../../../shared/config/environment";
+import { InternalServerError } from "../../../../shared/errors/errorClasses.ts";
 
 @injectable()
 export class AuthService implements IAuthService {
@@ -18,12 +19,12 @@ export class AuthService implements IAuthService {
     }
 
     generateAccessToken(paylod: Object): string {
-        if (!SECRET_KEY) throw new Error("SECRET_KEY environment variable is not defined");
+        if (!SECRET_KEY) throw new InternalServerError("La clave secreta no está definida");
         return jwt.sign(paylod, SECRET_KEY, { expiresIn: "1m" });
     }
 
     generateRefreshToken(paylod: Object): string {
-        if (!REFRESH_SECRET_KEY) throw new Error("REFRESH_SECRET_KEY environment variable is not defined");
+        if (!REFRESH_SECRET_KEY) throw new InternalServerError("La clave secreta no está definida");
         return jwt.sign(paylod, REFRESH_SECRET_KEY, { expiresIn: "2m" });
     }
 
@@ -33,8 +34,7 @@ export class AuthService implements IAuthService {
     }
 
     verifyRefreshToken(token: string): { id: string; email: string } {
-        if (!REFRESH_SECRET_KEY) throw new Error("REFRESH_SECRET_KEY environment variable is not defined");
-
+        if (!REFRESH_SECRET_KEY) throw new InternalServerError("La clave secreta no está definida");
         return jwt.verify(token, REFRESH_SECRET_KEY) as { id: string; email: string };
     }
 }
