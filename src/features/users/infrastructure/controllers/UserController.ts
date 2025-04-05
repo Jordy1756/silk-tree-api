@@ -27,11 +27,38 @@ export class UserController implements interfaces.Controller {
         }
     }
 
+    @httpPost("/registerWithGoogle")
+    async registerWithGoogle(@request() req: Request, @response() res: Response): Promise<void> {
+        try {
+            const googleAccessToken: string = req.body;
+            const user = await this._userUseCase.registerWithGoogle(googleAccessToken);
+
+            res.status(201).json(mapToUserDTO(user));
+        } catch (error) {
+            throw error;
+        }
+    }
+
     @httpPost("/login")
     async login(@request() req: Request, @response() res: Response): Promise<void> {
         try {
             const userData: UserDTO = req.body;
             const { accessToken, refreshToken, user } = await this._userUseCase.login(mapToUser(userData));
+
+            res.cookie("access_token", accessToken, getTokenCookieConfig(MAX_AGE_ACCESS_TOKEN_COOKIE));
+            res.cookie("refresh_token", refreshToken, getTokenCookieConfig(MAX_AGE_REFRESH_TOKEN_COOKIE));
+
+            res.status(201).json(mapToUserDTO(user));
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    @httpPost("/loginWithGoogle")
+    async loginWithGoogle(@request() req: Request, @response() res: Response): Promise<void> {
+        try {
+            const googleAccessToken: string = req.body;
+            const { accessToken, refreshToken, user } = await this._userUseCase.loginWithGoogle(googleAccessToken);
 
             res.cookie("access_token", accessToken, getTokenCookieConfig(MAX_AGE_ACCESS_TOKEN_COOKIE));
             res.cookie("refresh_token", refreshToken, getTokenCookieConfig(MAX_AGE_REFRESH_TOKEN_COOKIE));

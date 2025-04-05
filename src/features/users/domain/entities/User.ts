@@ -33,6 +33,7 @@ User.init(
             validate: { isEmail: true, notEmpty: true },
             field: "EMAIL",
         },
+
         passwordHash: {
             type: DataTypes.STRING,
             validate: { notEmpty: true },
@@ -43,6 +44,6 @@ User.init(
         sequelize,
         modelName: "User",
         tableName: "USER",
-        timestamps: false
+        timestamps: false,
     }
 );
