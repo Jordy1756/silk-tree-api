@@ -36,6 +36,7 @@ export class MedicalAppointmentRepository implements IMedicalAppointmentReposito
     }
 
     async checkOverlappingMedicalAppointment({
+        id,
         startDate,
         endDate,
         specialtyId,

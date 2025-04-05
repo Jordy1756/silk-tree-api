@@ -43,8 +43,6 @@ export class UserController implements interfaces.Controller {
         try {
             const refreshToken = req.cookies.refresh_token;
 
-            if (!refreshToken) throw new UnauthorizedError("No se proporcionó refresh token");
-
             const { newAccessToken, newRefreshToken } = await this._userUseCase.refreshTokens(refreshToken);
 
             res.cookie("access_token", newAccessToken, getTokenCookieConfig(60 * 1000));
@@ -67,7 +65,7 @@ export class UserController implements interfaces.Controller {
 
             res.status(201).json({ message: "Sesión cerrada exitosamente" });
         } catch (error) {
-            throw new InternalServerError("Error al cerrar sesión");
+            throw new InternalServerError("Error interno", "Error al cerrar sesión");
         }
     }
 }

@@ -1,17 +1,16 @@
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { injectable } from "inversify";
-import { User } from "../entities/User";
-import { IAuthService } from "../interfaces/IAuthService";
-import { SECRET_KEY, SALT_ROUNDS, REFRESH_SECRET_KEY } from "../../../../shared/config/environment";
-import { InternalServerError } from "../../../../shared/errors/errorClasses.ts";
+import { User } from "../entities/User.ts";
+import { IAuthService } from "../interfaces/IAuthService.ts";
+import { SECRET_KEY, SALT_ROUNDS, REFRESH_SECRET_KEY } from "../../../../shared/config/environment.ts";
 
 @injectable()
 export class AuthService implements IAuthService {
     constructor() {}
 
     async hashPassword(password: string): Promise<string> {
-        return await bcrypt.hash(password, +(SALT_ROUNDS || 10));
+        return await bcrypt.hash(password, SALT_ROUNDS);
     }
 
     async validateCredentials(password: string, hash: string): Promise<boolean> {
@@ -19,12 +18,10 @@ export class AuthService implements IAuthService {
     }
 
     generateAccessToken(paylod: Object): string {
-        if (!SECRET_KEY) throw new InternalServerError("La clave secreta no está definida");
         return jwt.sign(paylod, SECRET_KEY, { expiresIn: "1m" });
     }
 
     generateRefreshToken(paylod: Object): string {
-        if (!REFRESH_SECRET_KEY) throw new InternalServerError("La clave secreta no está definida");
         return jwt.sign(paylod, REFRESH_SECRET_KEY, { expiresIn: "2m" });
     }
 
@@ -34,7 +31,6 @@ export class AuthService implements IAuthService {
     }
 
     verifyRefreshToken(token: string): { id: string; email: string } {
-        if (!REFRESH_SECRET_KEY) throw new InternalServerError("La clave secreta no está definida");
         return jwt.verify(token, REFRESH_SECRET_KEY) as { id: string; email: string };
     }
 }

@@ -16,9 +16,8 @@ export const authMiddleware = (req: Request, res: Response, next: NextFunction) 
     req.session.user = { id: "", email: "" };
 
     try {
-        if (!token) throw new UnauthorizedError("Tu sesión ha expirado. Por favor, inicia sesión nuevamente.");
-
-        if (!SECRET_KEY) throw new InternalServerError("La clave secreta para JWT no está configurada");
+        if (!token)
+            throw new UnauthorizedError("No autorizado", "Tu sesión ha expirado. Por favor, inicia sesión nuevamente.");
 
         req.session.user = jwt.verify(token, SECRET_KEY) as { id: string; email: string };
     } catch (error) {

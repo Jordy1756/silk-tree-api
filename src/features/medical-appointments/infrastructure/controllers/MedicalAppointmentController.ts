@@ -26,9 +26,9 @@ export class MedicalAppointmentController implements interfaces.Controller {
 
     @httpPost("/insertMedicalAppointment", authMiddleware)
     async insertMedicalAppointment(@request() req: Request, @response() res: Response): Promise<void> {
-        const { user } = req.session;
+        const { id } = req.session.user;
         const medicalAppointmentData: MedicalAppointmentDTO = req.body;
-        medicalAppointmentData.userId = user.id;
+        medicalAppointmentData.userId = id;
 
         try {
             const medicalAppointment = await this._medicalAppointmentUseCase.insertMedicalAppointment(
@@ -43,9 +43,9 @@ export class MedicalAppointmentController implements interfaces.Controller {
 
     @httpPut("/updateMedicalAppointment", authMiddleware)
     async updateMedicalAppointment(@request() req: Request, @response() res: Response): Promise<void> {
-        const { user } = req.session;
+        const { id } = req.session.user;
         const medicalAppointmentData: MedicalAppointmentDTO = req.body;
-        medicalAppointmentData.userId = user.id;
+        medicalAppointmentData.userId = id;
 
         try {
             const medicalAppointment = await this._medicalAppointmentUseCase.updateMedicalAppointment(
@@ -61,11 +61,11 @@ export class MedicalAppointmentController implements interfaces.Controller {
     @httpDelete("/deleteMedicalAppointment/:medicalAppointmentId", authMiddleware)
     async deleteMedicalAppointment(@request() req: Request, @response() res: Response): Promise<void> {
         const { medicalAppointmentId } = req.params;
-        const { user } = req.session;
+        const { id } = req.session.user;
 
         try {
             res.status(200).json(
-                await this._medicalAppointmentUseCase.deleteMedicalAppointment(medicalAppointmentId, user.id)
+                await this._medicalAppointmentUseCase.deleteMedicalAppointment(medicalAppointmentId, id)
             );
         } catch (error) {
             throw error;
@@ -75,8 +75,8 @@ export class MedicalAppointmentController implements interfaces.Controller {
     @httpGet("/getAllMedicalAppointments", authMiddleware)
     async getAllMedicalAppointments(@request() req: Request, @response() res: Response): Promise<void> {
         try {
-            const { user } = req.session;
-            const medicalAppointments = await this._medicalAppointmentUseCase.getAllMedicalAppointments(user.id);
+            const { id } = req.session.user;
+            const medicalAppointments = await this._medicalAppointmentUseCase.getAllMedicalAppointments(id);
             res.status(200).json(mapToMedicalAppointmentDTOs(medicalAppointments));
         } catch (error) {
             throw error;
