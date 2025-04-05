@@ -30,7 +30,7 @@ export class UserController implements interfaces.Controller {
     @httpPost("/registerWithGoogle")
     async registerWithGoogle(@request() req: Request, @response() res: Response): Promise<void> {
         try {
-            const googleAccessToken: string = req.body;
+            const { googleAccessToken } = req.body;
             const user = await this._userUseCase.registerWithGoogle(googleAccessToken);
 
             res.status(201).json(mapToUserDTO(user));
@@ -57,7 +57,7 @@ export class UserController implements interfaces.Controller {
     @httpPost("/loginWithGoogle")
     async loginWithGoogle(@request() req: Request, @response() res: Response): Promise<void> {
         try {
-            const googleAccessToken: string = req.body;
+            const { googleAccessToken } = req.body;
             const { accessToken, refreshToken, user } = await this._userUseCase.loginWithGoogle(googleAccessToken);
 
             res.cookie("access_token", accessToken, getTokenCookieConfig(MAX_AGE_ACCESS_TOKEN_COOKIE));
