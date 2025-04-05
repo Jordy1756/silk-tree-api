@@ -33,12 +33,6 @@ export const UnauthorizedError = createError({
     statusCode: 401,
 });
 
-export const ForbiddenError = createError({
-    defaultName: "Acceso denegado",
-    defaultMessage: "No tienes permisos suficientes para realizar esta acción",
-    statusCode: 403,
-});
-
 export const BadRequestError = createError({
     defaultName: "Solicitud inválida",
     defaultMessage: "La solicitud no pudo ser procesada. Verifica los datos enviados",
