@@ -3,7 +3,12 @@ import { IUserRepository } from "../../domain/interfaces/IUserRepository.ts";
 import { inject, injectable } from "inversify";
 import { USER_TYPES } from "../../infrastructure/container/UserTypes.ts";
 import { IAuthService } from "../../domain/interfaces/IAuthService.ts";
-import { BadRequestError, ConflictError, UnauthorizedError, ValidationError } from "../../../../shared/errors/errorClasses.ts";
+import {
+    BadRequestError,
+    ConflictError,
+    UnauthorizedError,
+    ValidationError,
+} from "../../../../shared/errors/errorClasses.ts";
 
 @injectable()
 export class UserUseCase {

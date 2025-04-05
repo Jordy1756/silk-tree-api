@@ -10,7 +10,7 @@ export class AuthService implements IAuthService {
     constructor() {}
 
     async hashPassword(password: string): Promise<string> {
-        return await bcrypt.hash(password, SALT_ROUNDS);
+        return await bcrypt.hash(password, +SALT_ROUNDS);
     }
 
     async validateCredentials(password: string, hash: string): Promise<boolean> {
