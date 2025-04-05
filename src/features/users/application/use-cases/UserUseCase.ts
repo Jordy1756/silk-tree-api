@@ -3,12 +3,7 @@ import { IUserRepository } from "../../domain/interfaces/IUserRepository.ts";
 import { inject, injectable } from "inversify";
 import { USER_TYPES } from "../../infrastructure/container/UserTypes.ts";
 import { IAuthService } from "../../domain/interfaces/IAuthService.ts";
-import {
-    BadRequestError,
-    ConflictError,
-    UnauthorizedError,
-    ValidationError,
-} from "../../../../shared/errors/errorClasses.ts";
+import { ConflictError, UnauthorizedError, ValidationError } from "../../../../shared/errors/errorClasses.ts";
 
 @injectable()
 export class UserUseCase {
@@ -42,23 +37,5 @@ export class UserUseCase {
         const { accessToken, refreshToken } = this._authService.generateTokens(user);
 
         return { accessToken, refreshToken, user };
-    }
-
-    async refreshTokens(refreshToken: string) {
-        if (!refreshToken) throw new BadRequestError("Token requerido", "No se proporcionó el token de actualización");
-
-        const { id } = this._authService.verifyRefreshToken(refreshToken);
-
-        const user = await this._userRepository.findById(id);
-
-        if (!user)
-            throw new UnauthorizedError(
-                "Sesión inválida",
-                "Tu sesión ha expirado. Por favor, inicia sesión nuevamente"
-            );
-
-        const { accessToken: newAccessToken, refreshToken: newRefreshToken } = this._authService.generateTokens(user);
-
-        return { newAccessToken, newRefreshToken };
     }
 }

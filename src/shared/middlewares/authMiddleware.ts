@@ -1,7 +1,9 @@
 import jwt from "jsonwebtoken";
 import { NextFunction, Request, Response } from "express";
-import { SECRET_KEY } from "../config/environment.ts";
-import { BadRequestError } from "../errors/errorClasses.ts";
+import { REFRESH_SECRET_KEY, SECRET_KEY } from "../config/environment.ts";
+import { UnauthorizedError } from "../errors/errorClasses.ts";
+import { getTokenCookieConfig } from "../../features/users/infrastructure/utils/handleJTW.ts";
+import { MAX_AGE_ACCESS_TOKEN_COOKIE, MAX_AGE_ACCESS_TOKEN_JWT } from "../constants/jwtConstants.ts";
 
 declare global {
     namespace Express {
@@ -11,15 +13,38 @@ declare global {
     }
 }
 
+type JWTPayload = {
+    id: string;
+    email: string;
+    exp?: number;
+    iat?: number;
+};
+
 export const authMiddleware = (req: Request, res: Response, next: NextFunction) => {
-    const token = req.cookies.access_token;
-    req.session = { user: { id: "", email: "" } };
+    const accessToken = req.cookies.access_token;
+    const refreshToken = req.cookies.refresh_token;
+    let user = { id: "", email: "" };
 
     try {
-        if (!token) throw new BadRequestError("Token requerido", "No se proporcionó el token de acceso");
+        if (!refreshToken)
+            throw new UnauthorizedError(
+                "Sesión inválida",
+                "Tu sesión ha expirado. Por favor, inicia sesión nuevamente"
+            );
 
-        const user = jwt.verify(token, SECRET_KEY) as { id: string; email: string };
+        if (accessToken) {
+            user = jwt.verify(accessToken, SECRET_KEY) as JWTPayload;
+            req.session = { user };
 
+            return next();
+        }
+
+        const { id, email } = jwt.verify(refreshToken, REFRESH_SECRET_KEY) as JWTPayload;
+
+        user = { id, email };
+
+        const newAccessToken = jwt.sign(user, SECRET_KEY, { expiresIn: MAX_AGE_ACCESS_TOKEN_JWT });
+        res.cookie("access_token", newAccessToken, getTokenCookieConfig(MAX_AGE_ACCESS_TOKEN_COOKIE));
         req.session = { user };
     } catch (error) {
         throw error;

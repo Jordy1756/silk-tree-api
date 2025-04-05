@@ -5,7 +5,11 @@ import { UserDTO } from "../../application/dtos/UserDTO.ts";
 import { UserUseCase } from "../../application/use-cases/UserUseCase.ts";
 import { mapToUser, mapToUserDTO } from "../../application/mappers/UserMapper.ts";
 import { getTokenCookieConfig } from "../utils/handleJTW.ts";
-import { InternalServerError, UnauthorizedError } from "../../../../shared/errors/errorClasses.ts";
+import { InternalServerError } from "../../../../shared/errors/errorClasses.ts";
+import {
+    MAX_AGE_ACCESS_TOKEN_COOKIE,
+    MAX_AGE_REFRESH_TOKEN_COOKIE,
+} from "../../../../shared/constants/jwtConstants.ts";
 
 @controller("/user")
 export class UserController implements interfaces.Controller {
@@ -29,30 +33,11 @@ export class UserController implements interfaces.Controller {
             const userData: UserDTO = req.body;
             const { accessToken, refreshToken, user } = await this._userUseCase.login(mapToUser(userData));
 
-            res.cookie("access_token", accessToken, getTokenCookieConfig(60 * 1000));
-            res.cookie("refresh_token", refreshToken, getTokenCookieConfig(2 * 60 * 1000));
+            res.cookie("access_token", accessToken, getTokenCookieConfig(MAX_AGE_ACCESS_TOKEN_COOKIE));
+            res.cookie("refresh_token", refreshToken, getTokenCookieConfig(MAX_AGE_REFRESH_TOKEN_COOKIE));
 
             res.status(201).json(mapToUserDTO(user));
         } catch (error) {
-            throw error;
-        }
-    }
-
-    @httpPost("/refreshToken")
-    async refreshToken(@request() req: Request, @response() res: Response): Promise<void> {
-        try {
-            const refreshToken = req.cookies.refresh_token;
-
-            const { newAccessToken, newRefreshToken } = await this._userUseCase.refreshTokens(refreshToken);
-
-            res.cookie("access_token", newAccessToken, getTokenCookieConfig(60 * 1000));
-            res.cookie("refresh_token", newRefreshToken, getTokenCookieConfig(2 * 60 * 1000));
-
-            res.status(201).json({ message: "Tokens renovados exitosamente" });
-        } catch (error) {
-            res.clearCookie("access_token");
-            res.clearCookie("refresh_token");
-
             throw error;
         }
     }
