@@ -1,10 +1,10 @@
-import { controller, httpPost, interfaces, request, response } from "inversify-express-utils";
+import { controller, httpGet, httpPost, interfaces, request, response } from "inversify-express-utils";
 import { inject } from "inversify";
 import { Request, Response } from "express";
 import { UserDTO } from "../../application/dtos/UserDTO.ts";
 import { UserUseCase } from "../../application/use-cases/UserUseCase.ts";
 import { mapToUser, mapToUserDTO } from "../../application/mappers/UserMapper.ts";
-import { getTokenCookieConfig } from "../utils/handleJTW.ts";
+import { getTokenCookieConfig } from "../../../../shared/utils/handleJTW.ts";
 import { InternalServerError } from "../../../../shared/errors/errorClasses.ts";
 import {
     MAX_AGE_ACCESS_TOKEN_COOKIE,
@@ -27,7 +27,7 @@ export class UserController implements interfaces.Controller {
         }
     }
 
-    @httpPost("/registerWithGoogle")
+    @httpPost("/register-with-google")
     async registerWithGoogle(@request() req: Request, @response() res: Response): Promise<void> {
         try {
             const { googleAccessToken } = req.body;
@@ -54,7 +54,7 @@ export class UserController implements interfaces.Controller {
         }
     }
 
-    @httpPost("/loginWithGoogle")
+    @httpPost("/login-with-google")
     async loginWithGoogle(@request() req: Request, @response() res: Response): Promise<void> {
         try {
             const { googleAccessToken } = req.body;
@@ -79,5 +79,10 @@ export class UserController implements interfaces.Controller {
         } catch (error) {
             throw new InternalServerError("Error interno", "Error al cerrar sesión");
         }
+    }
+
+    @httpGet("/auth-status")
+    async getAuthStatus(@request() req: Request, @response() res: Response): Promise<void> {
+        res.json({ isAuthenticated: Boolean(req.cookies.refresh_token) });
     }
 }

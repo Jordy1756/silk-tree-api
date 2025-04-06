@@ -8,7 +8,7 @@ import { mapToSpecialtyDTOs } from "../../application/mappers/SpecialtyMapper.ts
 export class SpecialtyController implements interfaces.Controller {
     constructor(@inject(SpecialtyUseCase) private readonly _specialtyUseCase: SpecialtyUseCase) {}
 
-    @httpGet("/getAllSpecialties")
+    @httpGet("/get-all-specialties")
     async getAllMedicalAppointments(@request() req: Request, @response() res: Response): Promise<void> {
         try {
             const specialties = await this._specialtyUseCase.getAllSpecialties();

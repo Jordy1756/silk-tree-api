@@ -41,14 +41,11 @@ export class AuthService implements IAuthService {
         email: string;
         email_verified: boolean;
     }> {
-        console.log({ googleAccessToken });
         const response = await fetch("https://www.googleapis.com/oauth2/v3/userinfo", {
             headers: {
                 Authorization: `Bearer ${googleAccessToken}`,
             },
         });
-
-        console.log(response)
 
         if (!response.ok)
             throw new UnauthorizedError(

@@ -18,13 +18,13 @@ import {
 } from "../../application/mappers/MedicalAppointmentMapper.ts";
 import { authMiddleware } from "../../../../shared/middlewares/authMiddleware.ts";
 
-@controller("/medicalAppointment")
+@controller("/medical-appointment")
 export class MedicalAppointmentController implements interfaces.Controller {
     constructor(
         @inject(MedicalAppointmentUseCase) private readonly _medicalAppointmentUseCase: MedicalAppointmentUseCase
     ) {}
 
-    @httpPost("/insertMedicalAppointment", authMiddleware)
+    @httpPost("/insert-medical-appointment", authMiddleware)
     async insertMedicalAppointment(@request() req: Request, @response() res: Response): Promise<void> {
         const { id } = req.session.user;
         const medicalAppointmentData: MedicalAppointmentDTO = req.body;
@@ -41,7 +41,7 @@ export class MedicalAppointmentController implements interfaces.Controller {
         }
     }
 
-    @httpPut("/updateMedicalAppointment", authMiddleware)
+    @httpPut("/update-medical-appointment", authMiddleware)
     async updateMedicalAppointment(@request() req: Request, @response() res: Response): Promise<void> {
         const { id } = req.session.user;
         const medicalAppointmentData: MedicalAppointmentDTO = req.body;
@@ -58,7 +58,7 @@ export class MedicalAppointmentController implements interfaces.Controller {
         }
     }
 
-    @httpDelete("/deleteMedicalAppointment/:medicalAppointmentId", authMiddleware)
+    @httpDelete("/delete-medical-appointment/:medicalAppointmentId", authMiddleware)
     async deleteMedicalAppointment(@request() req: Request, @response() res: Response): Promise<void> {
         const { medicalAppointmentId } = req.params;
         const { id } = req.session.user;
@@ -72,7 +72,7 @@ export class MedicalAppointmentController implements interfaces.Controller {
         }
     }
 
-    @httpGet("/getAllMedicalAppointments", authMiddleware)
+    @httpGet("/get-all-medical-appointments", authMiddleware)
     async getAllMedicalAppointments(@request() req: Request, @response() res: Response): Promise<void> {
         try {
             const { id } = req.session.user;

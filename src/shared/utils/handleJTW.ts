@@ -1,4 +1,4 @@
-import { NODE_ENV } from "../../../../shared/config/environment.ts";
+import { NODE_ENV } from "../config/environment.ts";
 
 export const getTokenCookieConfig = (
     maxAge: number
