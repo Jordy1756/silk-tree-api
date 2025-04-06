@@ -10,6 +10,7 @@ import {
     MAX_AGE_ACCESS_TOKEN_COOKIE,
     MAX_AGE_REFRESH_TOKEN_COOKIE,
 } from "../../../../shared/constants/jwtConstants.ts";
+import { authMiddleware } from "../../../../shared/middlewares/authMiddleware.ts";
 
 @controller("/user")
 export class UserController implements interfaces.Controller {
@@ -81,7 +82,7 @@ export class UserController implements interfaces.Controller {
         }
     }
 
-    @httpGet("/auth-status")
+    @httpGet("/auth-status", authMiddleware)
     async getAuthStatus(@request() req: Request, @response() res: Response): Promise<void> {
         res.json({ isAuthenticated: Boolean(req.cookies.refresh_token) });
     }

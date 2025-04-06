@@ -13,7 +13,10 @@ export class MedicalAppointmentUseCase {
 
     async insertMedicalAppointment(medicalAppointment: MedicalAppointment) {
         if (await this._medicalAppointmentRepository.checkOverlappingMedicalAppointment(medicalAppointment))
-            throw new ConflictError("Horario ocupado", "Ya existe una cita médica programada para este horario");
+            throw new ConflictError(
+                "Horario ocupado",
+                "Ya existe una cita médica programada para este horario de otro usuario"
+            );
 
         return await this._medicalAppointmentRepository.insertMedicalAppointment(medicalAppointment);
     }
@@ -24,7 +27,10 @@ export class MedicalAppointmentUseCase {
         );
 
         if (existingAppointment && existingAppointment.id !== medicalAppointment.id)
-            throw new ConflictError("Horario ocupado", "El horario seleccionado se solapa con otra cita médica");
+            throw new ConflictError(
+                "Horario ocupado",
+                "El horario seleccionado se solapa con otra cita médica  de otro usuario"
+            );
 
         const affectedCount = await this._medicalAppointmentRepository.updateMedicalAppointment(medicalAppointment);
 
