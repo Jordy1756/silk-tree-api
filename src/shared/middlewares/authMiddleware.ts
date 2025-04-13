@@ -2,7 +2,7 @@ import jwt from "jsonwebtoken";
 import { NextFunction, Request, Response } from "express";
 import { REFRESH_SECRET_KEY, SECRET_KEY } from "../config/environment.ts";
 import { UnauthorizedError } from "../errors/errorClasses.ts";
-import { getTokenCookieConfig } from "../utils/handleJTW.ts";
+import { getTokenCookieConfig } from "../utils/handleCookies.ts";
 import { MAX_AGE_ACCESS_TOKEN_COOKIE, MAX_AGE_ACCESS_TOKEN_JWT } from "../constants/jwtConstants.ts";
 
 declare global {
