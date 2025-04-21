@@ -1,10 +1,7 @@
 declare global {
     namespace NodeJS {
         interface ProcessEnv {
-            DB_HOST: string;
-            DB_USER: string;
-            DB_PASSWORD: string;
-            DB_NAME: string;
+            DB_URL: string;
             PORT: string;
             SECRET_KEY: string;
             REFRESH_SECRET_KEY: string;
@@ -16,5 +13,4 @@ declare global {
 
 process.loadEnvFile();
 
-export const { DB_HOST, DB_USER, DB_PASSWORD, DB_NAME, PORT, SECRET_KEY, REFRESH_SECRET_KEY, NODE_ENV, SALT_ROUNDS } =
-    process.env;
+export const { DB_URL, PORT, SECRET_KEY, REFRESH_SECRET_KEY, NODE_ENV, SALT_ROUNDS } = process.env;
