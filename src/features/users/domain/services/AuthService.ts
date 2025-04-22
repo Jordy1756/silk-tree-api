@@ -1,11 +1,11 @@
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { injectable } from "inversify";
-import { User } from "../entities/User.ts";
-import { IAuthService } from "../interfaces/IAuthService.ts";
-import { SECRET_KEY, SALT_ROUNDS, REFRESH_SECRET_KEY } from "../../../../shared/config/environment.ts";
-import { MAX_AGE_ACCESS_TOKEN_JWT, MAX_AGE_REFRESH_TOKEN_JWT } from "../../../../shared/constants/jwtConstants.ts";
-import { NotFoundError, UnauthorizedError } from "../../../../shared/errors/errorClasses.ts";
+import { User } from "../entities/User.js";
+import { IAuthService } from "../interfaces/IAuthService.js";
+import { SECRET_KEY, SALT_ROUNDS, REFRESH_SECRET_KEY } from "../../../../shared/config/environment.js";
+import { MAX_AGE_ACCESS_TOKEN_JWT, MAX_AGE_REFRESH_TOKEN_JWT } from "../../../../shared/constants/jwtConstants.js";
+import { NotFoundError, UnauthorizedError } from "../../../../shared/errors/errorClasses.js";
 
 @injectable()
 export class AuthService implements IAuthService {

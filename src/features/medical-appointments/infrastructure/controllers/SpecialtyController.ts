@@ -1,8 +1,8 @@
 import { inject } from "inversify";
 import { controller, httpGet, interfaces, request, response } from "inversify-express-utils";
-import { SpecialtyUseCase } from "../../application/use-cases/SpecialtyUseCase.ts";
+import { SpecialtyUseCase } from "../../application/use-cases/SpecialtyUseCase.js";
 import { Request, Response } from "express";
-import { mapToSpecialtyDTOs } from "../../application/mappers/SpecialtyMapper.ts";
+import { mapToSpecialtyDTOs } from "../../application/mappers/SpecialtyMapper.js";
 
 @controller("/specialty")
 export class SpecialtyController implements interfaces.Controller {

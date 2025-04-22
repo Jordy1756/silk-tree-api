@@ -10,13 +10,13 @@ import {
     request,
     response,
 } from "inversify-express-utils";
-import { MedicalAppointmentDTO } from "../../application/dtos/MedicalAppointmentDTO.ts";
-import { MedicalAppointmentUseCase } from "../../application/use-cases/MedicalAppointmentUseCase.ts";
+import { MedicalAppointmentDTO } from "../../application/dtos/MedicalAppointmentDTO.js";
+import { MedicalAppointmentUseCase } from "../../application/use-cases/MedicalAppointmentUseCase.js";
 import {
     mapToMedicalAppointment,
     mapToMedicalAppointmentDTOs,
-} from "../../application/mappers/MedicalAppointmentMapper.ts";
-import { authMiddleware } from "../../../../shared/middlewares/authMiddleware.ts";
+} from "../../application/mappers/MedicalAppointmentMapper.js";
+import { authMiddleware } from "../../../../shared/middlewares/authMiddleware.js";
 
 @controller("/medical-appointment")
 export class MedicalAppointmentController implements interfaces.Controller {

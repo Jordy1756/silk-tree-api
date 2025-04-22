@@ -4,11 +4,11 @@ import cors from "cors";
 import cookieParser from "cookie-parser";
 import { InversifyExpressServer } from "inversify-express-utils";
 import { Container } from "inversify";
-import { PORT } from "./src/shared/config/environment.ts";
-import { configureUserContainer } from "./src/features/users/infrastructure/container/UserContainer.ts";
-import { sequelize } from "./src/shared/database/connection.ts";
-import { configureMedicalAppointmentContainer } from "./src/features/medical-appointments/infrastructure/container/MedicalAppointmentContainer.ts";
-import { errorMiddleware } from "./src/shared/middlewares/errorMiddleware.ts";
+import { PORT } from "./src/shared/config/environment.js";
+import { configureUserContainer } from "./src/features/users/infrastructure/container/UserContainer.js";
+import { sequelize } from "./src/shared/database/connection.js";
+import { configureMedicalAppointmentContainer } from "./src/features/medical-appointments/infrastructure/container/MedicalAppointmentContainer.js";
+import { errorMiddleware } from "./src/shared/middlewares/errorMiddleware.js";
 
 const app = express();
 app.disable("x-powered-by");

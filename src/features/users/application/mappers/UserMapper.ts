@@ -1,5 +1,5 @@
-import { User } from "../../domain/entities/User.ts";
-import { UserDTO } from "../dtos/UserDTO.ts";
+import { User } from "../../domain/entities/User.js";
+import { UserDTO } from "../dtos/UserDTO.js";
 
 export const mapToUser = ({ name, lastName, email, password }: UserDTO) =>
     User.build({ name, lastName, email, passwordHash: password });

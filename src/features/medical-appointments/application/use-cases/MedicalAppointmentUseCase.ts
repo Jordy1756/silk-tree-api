@@ -1,8 +1,8 @@
 import { inject, injectable } from "inversify";
-import { MEDICAL_APPOINTMENT_TYPES } from "../../infrastructure/container/MedicalAppointmentTypes.ts";
-import { IMedicalAppointmentRepository } from "../../domain/interfaces/IMedicalAppointmentRepository.ts";
-import { MedicalAppointment } from "../../domain/entities/MedicalAppointment.ts";
-import { ConflictError, NotFoundError } from "../../../../shared/errors/errorClasses.ts";
+import { MEDICAL_APPOINTMENT_TYPES } from "../../infrastructure/container/MedicalAppointmentTypes.js";
+import { IMedicalAppointmentRepository } from "../../domain/interfaces/IMedicalAppointmentRepository.js";
+import { MedicalAppointment } from "../../domain/entities/MedicalAppointment.js";
+import { ConflictError, NotFoundError } from "../../../../shared/errors/errorClasses.js";
 
 @injectable()
 export class MedicalAppointmentUseCase {

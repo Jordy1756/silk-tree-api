@@ -1,9 +1,9 @@
 import jwt from "jsonwebtoken";
 import { NextFunction, Request, Response } from "express";
-import { REFRESH_SECRET_KEY, SECRET_KEY } from "../config/environment.ts";
-import { UnauthorizedError } from "../errors/errorClasses.ts";
-import { getTokenCookieConfig } from "../utils/handleCookies.ts";
-import { MAX_AGE_ACCESS_TOKEN_COOKIE, MAX_AGE_ACCESS_TOKEN_JWT } from "../constants/jwtConstants.ts";
+import { REFRESH_SECRET_KEY, SECRET_KEY } from "../config/environment.js";
+import { UnauthorizedError } from "../errors/errorClasses.js";
+import { getTokenCookieConfig } from "../utils/handleCookies.js";
+import { MAX_AGE_ACCESS_TOKEN_COOKIE, MAX_AGE_ACCESS_TOKEN_JWT } from "../constants/jwtConstants.js";
 
 declare global {
     namespace Express {

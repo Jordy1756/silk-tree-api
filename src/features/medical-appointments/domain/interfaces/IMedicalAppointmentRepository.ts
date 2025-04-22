@@ -1,4 +1,4 @@
-import { MedicalAppointment } from "../entities/MedicalAppointment.ts";
+import { MedicalAppointment } from "../entities/MedicalAppointment.js";
 
 export interface IMedicalAppointmentRepository {
     insertMedicalAppointment(medicalAppointment: MedicalAppointment): Promise<MedicalAppointment>;

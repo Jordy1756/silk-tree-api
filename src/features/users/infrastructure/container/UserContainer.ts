@@ -1,11 +1,11 @@
 import { Container } from "inversify";
-import { UserRepository } from "../repositories/UserRepository.ts";
-import { USER_TYPES } from "./UserTypes.ts";
-import { UserUseCase } from "../../application/use-cases/UserUseCase.ts";
-import { IUserRepository } from "../../domain/interfaces/IUserRepository.ts";
-import { IAuthService } from "../../domain/interfaces/IAuthService.ts";
-import { AuthService } from "../../domain/services/AuthService.ts";
-import "../controllers/UserController.ts";
+import { UserRepository } from "../repositories/UserRepository.js";
+import { USER_TYPES } from "./UserTypes.js";
+import { UserUseCase } from "../../application/use-cases/UserUseCase.js";
+import { IUserRepository } from "../../domain/interfaces/IUserRepository.js";
+import { IAuthService } from "../../domain/interfaces/IAuthService.js";
+import { AuthService } from "../../domain/services/AuthService.js";
+import "../controllers/UserController.js";
 
 export function configureUserContainer(container: Container) {
     container.bind<IUserRepository>(USER_TYPES.IUserRepository).to(UserRepository);
