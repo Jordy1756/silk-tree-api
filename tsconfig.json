@@ -10,11 +10,18 @@
         "skipLibCheck": true,
         "forceConsistentCasingInFileNames": true,
         "outDir": "./dist",
-        "noEmit": true,
-        "allowImportingTsExtensions": true
+        "noEmit": false,
+        "allowImportingTsExtensions": false
     },
     "ts-node": {
         "esm": true,
         "experimentalSpecifierResolution": "node"
+    },
+    "tsc-alias": {
+        "resolveFullPaths": true,
+        "fileExtensions": {
+            "inputGlob": "{js,mjs}",
+            "outputCheck": ["js", "mjs"]
+        }
     }
 }

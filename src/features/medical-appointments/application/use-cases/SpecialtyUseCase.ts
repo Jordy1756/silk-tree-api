@@ -1,6 +1,6 @@
 import { inject, injectable } from "inversify";
-import { MEDICAL_APPOINTMENT_TYPES } from "../../infrastructure/container/MedicalAppointmentTypes.ts";
-import { ISpecialtyRepository } from "../../domain/interfaces/ISpecialtyRepository.ts";
+import { MEDICAL_APPOINTMENT_TYPES } from "../../infrastructure/container/MedicalAppointmentTypes";
+import { ISpecialtyRepository } from "../../domain/interfaces/ISpecialtyRepository";
 
 @injectable()
 export class SpecialtyUseCase {

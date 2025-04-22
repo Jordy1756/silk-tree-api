@@ -1,9 +1,9 @@
-import { User } from "../../domain/entities/User.ts";
-import { IUserRepository } from "../../domain/interfaces/IUserRepository.ts";
+import { User } from "../../domain/entities/User";
+import { IUserRepository } from "../../domain/interfaces/IUserRepository";
 import { inject, injectable } from "inversify";
-import { USER_TYPES } from "../../infrastructure/container/UserTypes.ts";
-import { IAuthService } from "../../domain/interfaces/IAuthService.ts";
-import { ConflictError, ValidationError } from "../../../../shared/errors/errorClasses.ts";
+import { USER_TYPES } from "../../infrastructure/container/UserTypes";
+import { IAuthService } from "../../domain/interfaces/IAuthService";
+import { ConflictError, ValidationError } from "../../../../shared/errors/errorClasses";
 
 @injectable()
 export class UserUseCase {

@@ -1,16 +1,13 @@
 import { controller, httpGet, httpPost, interfaces, request, response } from "inversify-express-utils";
 import { inject } from "inversify";
 import { Request, Response } from "express";
-import { UserDTO } from "../../application/dtos/UserDTO.ts";
-import { UserUseCase } from "../../application/use-cases/UserUseCase.ts";
-import { mapToUser, mapToUserDTO } from "../../application/mappers/UserMapper.ts";
-import { getTokenCookieConfig } from "../../../../shared/utils/handleCookies.ts";
-import { InternalServerError } from "../../../../shared/errors/errorClasses.ts";
-import {
-    MAX_AGE_ACCESS_TOKEN_COOKIE,
-    MAX_AGE_REFRESH_TOKEN_COOKIE,
-} from "../../../../shared/constants/jwtConstants.ts";
-import { authMiddleware } from "../../../../shared/middlewares/authMiddleware.ts";
+import { UserDTO } from "../../application/dtos/UserDTO";
+import { UserUseCase } from "../../application/use-cases/UserUseCase";
+import { mapToUser, mapToUserDTO } from "../../application/mappers/UserMapper";
+import { getTokenCookieConfig } from "../../../../shared/utils/handleCookies";
+import { InternalServerError } from "../../../../shared/errors/errorClasses";
+import { MAX_AGE_ACCESS_TOKEN_COOKIE, MAX_AGE_REFRESH_TOKEN_COOKIE } from "../../../../shared/constants/jwtConstants";
+import { authMiddleware } from "../../../../shared/middlewares/authMiddleware";
 
 @controller("/user")
 export class UserController implements interfaces.Controller {

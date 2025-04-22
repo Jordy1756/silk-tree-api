@@ -1,7 +1,7 @@
 import { DataTypes, Model } from "sequelize";
-import { Specialty } from "./Specialty.ts";
-import { sequelize } from "../../../../shared/database/connection.ts";
-import { User } from "../../../users/domain/entities/User.ts";
+import { Specialty } from "./Specialty";
+import { sequelize } from "../../../../shared/database/connection";
+import { User } from "../../../users/domain/entities/User";
 
 export class MedicalAppointment extends Model {
     declare id: string;

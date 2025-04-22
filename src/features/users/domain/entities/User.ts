@@ -1,5 +1,5 @@
 import { DataTypes, Model } from "sequelize";
-import { sequelize } from "../../../../shared/database/connection.ts";
+import { sequelize } from "../../../../shared/database/connection";
 
 export class User extends Model {
     declare id: string;

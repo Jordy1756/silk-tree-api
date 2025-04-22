@@ -1,6 +1,6 @@
-import { MedicalAppointment } from "../../domain/entities/MedicalAppointment.ts";
-import { MedicalAppointmentDTO } from "../dtos/MedicalAppointmentDTO.ts";
-import { mapToSpecialtyDTO } from "./SpecialtyMapper.ts";
+import { MedicalAppointment } from "../../domain/entities/MedicalAppointment";
+import { MedicalAppointmentDTO } from "../dtos/MedicalAppointmentDTO";
+import { mapToSpecialtyDTO } from "./SpecialtyMapper";
 
 export const mapToMedicalAppointment = ({
     id,

@@ -5,7 +5,7 @@ import {
     UnauthorizedError,
     BadRequestError,
     ConflictError,
-} from "./errorClasses.ts";
+} from "./errorClasses";
 
 export const isCustomError = (err: Error): boolean =>
     err instanceof InternalServerError ||

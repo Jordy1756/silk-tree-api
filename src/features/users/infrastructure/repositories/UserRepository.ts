@@ -1,5 +1,5 @@
-import { User } from "../../domain/entities/User.ts";
-import { IUserRepository } from "../../domain/interfaces/IUserRepository.ts";
+import { User } from "../../domain/entities/User";
+import { IUserRepository } from "../../domain/interfaces/IUserRepository";
 import { injectable } from "inversify";
 
 @injectable()

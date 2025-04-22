@@ -1,4 +1,4 @@
-import { User } from "../entities/User.ts";
+import { User } from "../entities/User";
 
 export interface IAuthService {
     hashPassword(password: string): Promise<string>;

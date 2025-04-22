@@ -1,4 +1,4 @@
-import { NODE_ENV } from "../config/environment.ts";
+import { NODE_ENV } from "../config/environment";
 
 type CookieConfig = {
     httpOnly: boolean;

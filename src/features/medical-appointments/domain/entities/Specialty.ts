@@ -1,5 +1,5 @@
 import { DataTypes, Model } from "sequelize";
-import { sequelize } from "../../../../shared/database/connection.ts";
+import { sequelize } from "../../../../shared/database/connection";
 
 export class Specialty extends Model {
     declare id: number;

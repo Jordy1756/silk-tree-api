@@ -1,13 +1,13 @@
 import { Container } from "inversify";
-import { MEDICAL_APPOINTMENT_TYPES } from "./MedicalAppointmentTypes.ts";
-import { MedicalAppointmentUseCase } from "../../application/use-cases/MedicalAppointmentUseCase.ts";
-import { IMedicalAppointmentRepository } from "../../domain/interfaces/IMedicalAppointmentRepository.ts";
-import { MedicalAppointmentRepository } from "../repositories/MedicalAppointmentRepository.ts";
-import { ISpecialtyRepository } from "../../domain/interfaces/ISpecialtyRepository.ts";
-import { SpecialtyRepository } from "../repositories/SpecialtyRepository.ts";
-import { SpecialtyUseCase } from "../../application/use-cases/SpecialtyUseCase.ts";
-import "../controllers/MedicalAppointmentController.ts";
-import "../controllers/SpecialtyController.ts";
+import { MEDICAL_APPOINTMENT_TYPES } from "./MedicalAppointmentTypes";
+import { MedicalAppointmentUseCase } from "../../application/use-cases/MedicalAppointmentUseCase";
+import { IMedicalAppointmentRepository } from "../../domain/interfaces/IMedicalAppointmentRepository";
+import { MedicalAppointmentRepository } from "../repositories/MedicalAppointmentRepository";
+import { ISpecialtyRepository } from "../../domain/interfaces/ISpecialtyRepository";
+import { SpecialtyRepository } from "../repositories/SpecialtyRepository";
+import { SpecialtyUseCase } from "../../application/use-cases/SpecialtyUseCase";
+import "../controllers/MedicalAppointmentController";
+import "../controllers/SpecialtyController";
 
 export function configureMedicalAppointmentContainer(container: Container) {
     container

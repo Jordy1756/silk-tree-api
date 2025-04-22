@@ -1,5 +1,5 @@
-import { Specialty } from "../../domain/entities/Specialty.ts";
-import { SpecialtyDTO } from "../dtos/SpecialtyDTO.ts";
+import { Specialty } from "../../domain/entities/Specialty";
+import { SpecialtyDTO } from "../dtos/SpecialtyDTO";
 
 export const mapToSpecialty = ({ id, name }: SpecialtyDTO) => Specialty.build({ id, name });
 

@@ -1,4 +1,4 @@
-import { SpecialtyDTO } from "./SpecialtyDTO.ts";
+import { SpecialtyDTO } from "./SpecialtyDTO";
 
 export class MedicalAppointmentDTO {
     constructor(

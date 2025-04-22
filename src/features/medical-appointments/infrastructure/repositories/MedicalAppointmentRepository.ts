@@ -1,7 +1,7 @@
 import { injectable } from "inversify";
-import { MedicalAppointment } from "../../domain/entities/MedicalAppointment.ts";
-import { IMedicalAppointmentRepository } from "../../domain/interfaces/IMedicalAppointmentRepository.ts";
-import { Specialty } from "../../domain/entities/Specialty.ts";
+import { MedicalAppointment } from "../../domain/entities/MedicalAppointment";
+import { IMedicalAppointmentRepository } from "../../domain/interfaces/IMedicalAppointmentRepository";
+import { Specialty } from "../../domain/entities/Specialty";
 import { Op } from "sequelize";
 
 @injectable()
