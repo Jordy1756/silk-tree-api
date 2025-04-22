@@ -1,4 +1,4 @@
-import { User } from "../../domain/entities/User";
+import { User } from "../../domain/entities/User.ts";
 import { IUserRepository } from "../../domain/interfaces/IUserRepository.ts";
 import { injectable } from "inversify";
 
