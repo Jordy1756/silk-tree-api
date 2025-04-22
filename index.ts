@@ -12,7 +12,7 @@ import { errorMiddleware } from "./src/shared/middlewares/errorMiddleware.ts";
 
 const app = express();
 app.disable("x-powered-by");
-app.use(cors({ origin: "http://localhost:5173", credentials: true }));
+app.use(cors({ origin: ["http://localhost:5173", "https://silk-tree.vercel.app/"], credentials: true }));
 app.use(json());
 app.use(cookieParser());
 
